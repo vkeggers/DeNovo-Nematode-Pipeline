@@ -1,4 +1,4 @@
-# My-DeNovo-Nematode-Pipeline
+# DeNovo-Nematode-Pipeline
 Everything can be done as listed using the FIU HPC
 
 <details>
