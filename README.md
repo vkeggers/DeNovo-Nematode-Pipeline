@@ -168,8 +168,20 @@ conda activate busco
 type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
 
 ```
+#!/bin/bash
 
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%busco.log
+#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-type=ALL
+
+export AUGUSTUS_CONFIG_PATH="/home/data/jfierst/veggers/programs/Augustus"
+
+busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --lineage_dataset nematoda_odb10
 ```
+Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
 **QUAST**
 
