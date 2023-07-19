@@ -156,7 +156,16 @@ The output will be a file with pid***** and a directory named 01_rundir. The dir
 
 <summary>Quality Check</summary>
 
-We use QUAST and BUSCO to check the quality of our genome assemblies.
+We use QUAST and BUSCO to check the quality of our genome assemblies. There are two ways of doing this: module load from the hpc, or creating a conda environment. As of July 18, 2023, the modules were not on the hpc. To check if they are, type 'module avail busco', or 'module avail quast'. To see if you have conda type 'conda --help'. If it the command isn't recognized then you need to get conda. I have downloaded anaconda from source but there is an anaconda module on the hpc and you can use other programs like mamba or miniconda. Take your pick.
+
+**BUSCO**
+
+``
+conda create -n busco #-n is telling it to create an environment named busco
+conda activate busco #start up the environment. Your username should be replaced by the name of the environment.
+conda install -c bioconda busco #install busco in the environment using the bioconda channel
+``
+
 
 </details>
 
