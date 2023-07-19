@@ -160,11 +160,11 @@ We use QUAST and BUSCO to check the quality of our genome assemblies. There are 
 
 **BUSCO**
 
-``
+```
 conda create -n busco #-n is telling it to create an environment named busco
 conda activate busco #start up the environment. Your username should be replaced by the name of the environment.
 conda install -c bioconda busco #install busco in the environment using the bioconda channel
-``
+```
 
 
 </details>
