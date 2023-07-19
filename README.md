@@ -161,12 +161,18 @@ We use QUAST and BUSCO to check the quality of our genome assemblies. There are 
 **BUSCO**
 
 ```
-conda create -n busco #-n is telling it to create an environment named busco
-conda activate busco #start up the environment. Your username should be replaced by the name of the environment.
-conda install -c "bioconda/label/cf201901" busco #install busco in the environment using the bioconda channel, this may take some time.
+conda create -n busco -c conda-forge -c bioconda busco=5.4.7 #create an environment named busco (-n) and install busco version 5.4.7 and its dependancies using the bioconda and conda-forge channels (-c), this may take some time.
+conda activate busco
+```
+
+type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
+
 ```
 
 ```
+
+**QUAST**
+
 
 
 </details>
