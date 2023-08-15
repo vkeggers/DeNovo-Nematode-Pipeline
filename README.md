@@ -185,30 +185,23 @@ type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
 #SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
 
+
+module load quast-5.2.0 	#might need to load before running script
+
 export AUGUSTUS_CONFIG_PATH="/home/data/jfierst/veggers/programs/Augustus"
 
 busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --lineage_dataset nematoda_odb10
 ```
 Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
+```
+cp -R /home/data/jfierst/veggers/programs/Augustus/ /your/path/.
+cd Augustus
+chmod +777 *  #this is a easy but unsafe way to make sure all directories within the directory Augustus each have all permissions. This will take some time.
+```
+Run the script. BUSCO will take multiple hours to run but should not take longer than a day. Your output will be a short_summary*.txt file.
+
 **QUAST**
-
-type 'vi quast.sh' to create a script, hit [i], and copy/paste the lines below:
-
-```
-#!/bin/bash
-
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
-#SBATCH --output=out_%quast.log
-#SBATCH --mail-user=vegge003@fiu.edu
-#SBATCH --mail-type=ALL
-
-module load quast-5.2.0 	#might need to load before running script
-
-quast.py -t 4 --eukaryote --plots-format pdf /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o ./PB127_quast/
-```
 
 QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. The html files are files that display the information in a graphical way using icarus viewer.
 
