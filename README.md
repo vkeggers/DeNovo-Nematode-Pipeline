@@ -3,6 +3,8 @@ Everything can be done as listed using the FIU HPC
 
 <details>
 <summary>Assembly</summary>
+
+If you have your own data already, skip down and start at the line of code that says #create the input file.
 	
 ```
 module load sratoolkit-3.0.0
@@ -81,10 +83,20 @@ nextDenovo run.cfg
 
 Save by pressing [esc], type ':wq' and press [enter]
 
-To see if your job is running type the following command:
+Run the script with: 
+```
+sbatch < assemble.sh
+```
 
+To see if your job is running type the following command:
 ```
 squeue --me
+```
+
+There is a common issue some face and you may need to load modules before you run the script. In which case use:
+```
+module load nextDenovo-2.5.0
+sbatch < assemble.sh
 ```
 
 The final assembly result is at 03.ctg_graph/nd.asm.fasta
@@ -98,7 +110,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. 
 
-Find the Illumina data associated with _Oscheius_ sp.G on NCBI SRA. You should get the asseccion number: SRR16242711.
+Find the Illumina data associated with _Oscheius_ sp.G on NCBI SRA. You should get the asseccion number: SRR16242711. If you already have your own data then skip down and start at the line of code that says #create the input file.
 
 ```
 fasterq-dump SRR16242711
@@ -143,12 +155,12 @@ Create a script for polishing by typing 'vi polish.sh', hit [i] for insert, and 
 #SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
 
-module load nextPolish-1.4.0
+module load nextPolish-1.4.0 #might need to load before running script
 
 nextPolish run.cfg
 ```
 
-The output will be a file with pid***** and a directory named 01_rundir. The directory contains genome.nextpolish.fasta (the polished genome) and genome.nextpolish.fasta.stat (stats about the corrections made). Please rename the file if working with multiple genomes because all will come out with the same name and it could get confusing. 
+Run the script. The output will be a file with pid***** and a directory named 01_rundir. The directory contains genome.nextpolish.fasta (the polished genome) and genome.nextpolish.fasta.stat (stats about the corrections made). Please rename the file if working with multiple genomes because all will come out with the same name and it could get confusing. 
 
 </details>
 
@@ -156,7 +168,7 @@ The output will be a file with pid***** and a directory named 01_rundir. The dir
 
 <summary>Quality Check</summary>
 
-We use QUAST and BUSCO to check the quality of our genome assemblies. There are two ways of doing this: module load from the hpc, or creating a conda environment. As of July 18, 2023, the modules were not on the hpc. To check if they are, type 'module avail busco', or 'module avail quast'. To see if you have conda type 'conda --help'. If it the command isn't recognized then you need to get conda. I have downloaded anaconda from source but there is an anaconda module on the hpc and you can use other programs like mamba or miniconda. Take your pick.
+We use QUAST and BUSCO to check the quality of our genome assemblies. There are two ways of doing this: module load from the hpc, or creating a conda environment. 
 
 **BUSCO**
 
@@ -185,7 +197,20 @@ Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it
 
 **QUAST**
 
+```
+#!/bin/bash
 
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%quast.log
+#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-type=ALL
+
+module load quast-5.2.0 	#might need to load before running script
+
+quast.py -t 4 --eukaryote --plots-format pdf /home/data/jfierst/veggers/PB127/genome.nextpolish.fasta -o ./PB127_quast/
+```
 
 </details>
 
