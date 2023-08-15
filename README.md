@@ -83,6 +83,7 @@ nextDenovo run.cfg
 
 Save by pressing [esc], type ':wq' and press [enter]
 
+
 Run the script with: 
 ```
 sbatch < assemble.sh
