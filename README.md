@@ -210,8 +210,10 @@ Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it
 
 module load quast-5.2.0 	#might need to load before running script
 
-quast.py -t 4 --eukaryote --plots-format pdf /home/data/jfierst/veggers/PB127/genome.nextpolish.fasta -o ./PB127_quast/
+quast.py -t 4 --eukaryote --plots-format pdf /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o ./PB127_quast/
 ```
+
+QUAST only takes a minute or two and the output is in the directory PB127_quast. report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. The html files are files that display the information in a graphical way using icarus viewer.
 
 </details>
 
