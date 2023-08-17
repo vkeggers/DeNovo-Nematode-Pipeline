@@ -108,8 +108,12 @@ The final assembly result is at 03.ctg_graph/nd.asm.fasta
 Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 </details>
 
+<details>
+	<summary>Flye</summary>
+</details>
 
 </details>
+
 
 <details>
 <summary>Assembly Polishing</summary>
