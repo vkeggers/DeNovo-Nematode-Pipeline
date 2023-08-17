@@ -4,6 +4,9 @@ Everything can be done as listed using the FIU HPC
 <details>
 <summary>Assembly</summary>
 
+<details>
+<summary>nextDenovo</summary>
+
 If you have your own data already, skip down and start at the line of code that says #create the input file.
 	
 ```
@@ -103,6 +106,8 @@ sbatch < assemble.sh
 The final assembly result is at 03.ctg_graph/nd.asm.fasta
 
 Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
+</details>
+
 
 </details>
 
