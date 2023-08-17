@@ -5,7 +5,7 @@ Everything can be done as listed using the FIU HPC
 <summary>Assembly</summary>
 
 <details>
-_<summary>nextDenovo</summary>_
+<summary>nextDenovo</summary>
 
 If you have your own data already, skip down and start at the line of code that says #create the input file.
 	
@@ -109,7 +109,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 </details>
 
 <details>
-	_<summary>Flye</summary>_
+	<summary>Flye</summary>
 </details>
 
 </details>
