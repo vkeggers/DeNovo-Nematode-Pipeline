@@ -206,7 +206,7 @@ module load quast-5.2.0 	#might need to load before running script
 
 export AUGUSTUS_CONFIG_PATH="/home/data/jfierst/veggers/programs/Augustus"
 
-busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --offline --lineage_dataset /path/to/nematoda_odb10
+busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --offline --lineage_dataset /home/data/jfierst/your_username/nematoda_odb10
 ```
 Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
