@@ -143,7 +143,7 @@ rewrite = yes
 rerun = 3
 parallel_jobs = 6
 multithread_jobs = 5
-genome = /home/data/jfierst/veggers/PB127/03.ctg_graph/nd.asm.fasta #genome file
+genome = /your/path/to/03.ctg_graph/nd.asm.fasta #genome file
 genome_size = 120M
 workdir = ./01_rundir
 polish_options = -p {multithread_jobs}
@@ -162,10 +162,10 @@ Create a script for polishing by typing 'vi polish.sh', hit [i] for insert, and 
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
 #SBATCH --output=out_%polish.log
-#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-user=vegge003@fiu.edu   #use your email
 #SBATCH --mail-type=ALL
 
-module load nextPolish-1.4.0 #might need to load before running script
+module load nextPolish-1.4.0   #might need to load before running script
 
 nextPolish run.cfg
 ```
@@ -198,15 +198,15 @@ type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
 #SBATCH --output=out_%busco.log
-#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-user=vegge003@fiu.edu  #use your email
 #SBATCH --mail-type=ALL
 
 
 module load quast-5.2.0 	#might need to load before running script
 
-export AUGUSTUS_CONFIG_PATH="/home/data/jfierst/veggers/programs/Augustus"
+export AUGUSTUS_CONFIG_PATH="/your/path/to/Augustus"
 
-busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --offline --lineage_dataset /home/data/jfierst/your_username/nematoda_odb10
+busco -c 4 -m genome -i /your/path/to/01_rundir/genome.nextpolish.fasta -o busco_PB127 --offline --lineage_dataset /home/data/jfierst/your_username/nematoda_odb10
 ```
 Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
@@ -215,9 +215,25 @@ cp -R /home/data/jfierst/veggers/programs/Augustus/ /your/path/.
 cd Augustus
 chmod +777 *  #this is a easy but unsafe way to make sure all directories within the directory Augustus each have all permissions. This will take some time.
 ```
-Run the script. BUSCO will take multiple hours to run but should not take longer than a day. Your output will be a short_summary*.txt file.
+Edit the script to include your path to Augustus and run the script. BUSCO may take multiple hours to run but should not take longer than a day. Your output will be a short_summary*.txt file.
 
 **QUAST**
+
+
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%quast.log
+#SBATCH --mail-user=vegge003@fiu.edu    #use your own email
+#SBATCH --mail-type=ALL
+
+module load quast-5.2.0  #may need to load before running script
+
+quast.py -t 4 --eukaryote --plots-format pdf /your/path/to/01_rundir/genome.nextpolish.fasta -o ./PB127_quast/
+```
 
 QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. The html files are files that display the information in a graphical way using icarus viewer.
 
