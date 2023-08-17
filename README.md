@@ -5,7 +5,7 @@ Everything can be done as listed using the FIU HPC
 <summary>Assembly</summary>
 
 <details>
-<summary>_nextDenovo_</summary>
+_<summary>nextDenovo</summary>_
 
 If you have your own data already, skip down and start at the line of code that says #create the input file.
 	
