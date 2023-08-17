@@ -182,6 +182,13 @@ We use QUAST and BUSCO to check the quality of our genome assemblies. There are 
 
 **BUSCO**
 
+We need to download the nematode dataset so that we can run busco in offline mode. 
+
+```
+wget --no-check-certificate https://busco-data.ezlab.org/v5/data/lineages/nematoda_odb10.2020-08-05.tar.gz
+tar -xvzf nematoda_odb10.2020-08-05.tar.gz
+```
+
 type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
 
 ```
@@ -199,7 +206,7 @@ module load quast-5.2.0 	#might need to load before running script
 
 export AUGUSTUS_CONFIG_PATH="/home/data/jfierst/veggers/programs/Augustus"
 
-busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --lineage_dataset nematoda_odb10
+busco -c 4 -m genome -i /home/data/jfierst/veggers/PB127/01_rundir/genome.nextpolish.fasta -o busco_PB127 --offline --lineage_dataset /path/to/nematoda_odb10
 ```
 Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
