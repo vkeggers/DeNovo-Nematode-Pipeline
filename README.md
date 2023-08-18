@@ -4,6 +4,8 @@ Everything can be done as listed using the FIU HPC
 <details>
 <summary>Assembly</summary>
 
+We have assembly methods for nextDenovo and Flye programs. However, we find nextDenovo to generally be better and more contiguous. 
+
 <details>
 <summary>nextDenovo</summary>
 
