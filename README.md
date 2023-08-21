@@ -134,7 +134,7 @@ vi canu_assemble.sh
 ```
 Hit [i] for insertion mode and copy/paste the following:
 
-```
+
 
 
 </details>
