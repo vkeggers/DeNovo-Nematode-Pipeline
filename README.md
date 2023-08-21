@@ -114,7 +114,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 <details>
 	<summary>Flye</summary>
 	
-	If you have your own data already, skip down and start at the line of code that says vi canu_assemble.sh.
+If you have your own data already, skip down and start at the line of code that says vi canu_assemble.sh.
 	
 ```
 module load sratoolkit-3.0.0
