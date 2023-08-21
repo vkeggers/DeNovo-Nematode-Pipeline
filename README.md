@@ -113,6 +113,24 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 
 <details>
 	<summary>Flye</summary>
+	
+	If you have your own data already, skip down and start at the line of code that says vi canu_assemble.sh.
+	
+```
+module load sratoolkit-3.0.0
+```
+
+Go to NCBI SRA and search _Oscheius_. use the filters at the side to narrow it down to genome and nanopore reads. Find the sra ID for _Oscheius_ sp.G, the number is **SRR16242712**
+
+```
+fasterq-dump SRR16242712
+#this will take a while and give you no feedback so just believe it will work.
+```
+
+If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+
+
+
 </details>
 
 We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Nanopore reads while the above only require Nanopore and Illumina.
