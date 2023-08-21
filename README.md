@@ -129,6 +129,12 @@ fasterq-dump SRR16242712
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
 
+```
+vi canu_assemble.sh
+```
+Hit [i] for insertion mode and copy/paste the following:
+
+```
 
 
 </details>
