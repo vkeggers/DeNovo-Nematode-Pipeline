@@ -114,6 +114,12 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 	<summary>Flye</summary>
 </details>
 
+We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Nanopore reads while the above only require Nanopore and Illumina.
+
+<details>
+	<summary>Verkko</summary>
+</details>
+
 </details>
 
 
