@@ -1,5 +1,6 @@
 # DeNovo-Nematode-Pipeline
-Everything can be done as listed using the FIU HPC
+This pipeline is in reference to and building off of https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md
+Everything can be done as listed using the FIU HPC. 
 
 <details>
 <summary>Assembly</summary>
