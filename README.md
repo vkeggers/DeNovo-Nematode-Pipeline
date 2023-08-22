@@ -28,6 +28,7 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+https://github.com/Nextomics/NextDenovo
 ```
 #create the input file
 ls SRR16242712.fastq > input.fofn
@@ -134,6 +135,8 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://canu.readthedocs.io/en/latest/quick-start.html#quickstart
 The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, and we don't use these programs enough to request their download. Thus, I've just created conda environments for these. You can try using the anaconda module on HPC (module load anaconda2), but I downloaded my own anaconda a long time ago. You can get the linux version of anaconda here: https://www.anaconda.com/download
 Miniconda or Mamba probably work too, I just haven't tried.
 
@@ -181,6 +184,7 @@ squeue --me
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
+https://github.com/fenderglass/Flye
 Get Flye
 ```
 conda create -n flye
@@ -271,6 +275,9 @@ fasterq-dump SRR16242711
 ```
 If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+https://github.com/Nextomics/NextPolish
 ```
 #create the input file
 ls SRR16242711_1.fastq SRR16242711_2.fastq > sgs.fofn
