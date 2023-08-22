@@ -114,7 +114,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 <details>
 	<summary>Flye</summary>
 	
-If you have your own data already, skip down and start at the line of code that says vi canu_assemble.sh.
+If you have your own data already, skip down and start conda installation.
 	
 ```
 module load sratoolkit-3.0.0
@@ -128,6 +128,12 @@ fasterq-dump SRR16242712
 ```
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+
+```
+conda create -n canu
+conda activate canu
+conda install -c bioconda canu
+```
 
 ```
 vi canu_correction.sh
@@ -144,9 +150,9 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
-module load canu-2.1-gcc-8.2.0
+conda activate canu
 
-canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore ./SRR16242712.fastq
+canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./SRR16242712.fastq
 ```
 
 Save by pressing [esc], type ':wq' and press [enter]
@@ -160,6 +166,33 @@ sbatch < canu_correction.sh
 To see if your job is running type the following command:
 ```
 squeue --me
+```
+
+```
+conda create -n flye
+conda activate flye
+conda install -c bioconda flye
+```
+
+```
+vi flye_assemble.sh
+```
+
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%assembly.log
+#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-type=ALL
+
+
+module load bio/bioinfo-gcc
+module load python/python3/3.6.5
+
+/jlf/jdmillwood/Flye/bin/flye --nano-corr /jlf/vkeggers/DF5018_2/canu_out/DF5018_2.correctedReads.fasta.gz -o flye_try -t 8 --genome-size 120M
 ```
 
 </details>
