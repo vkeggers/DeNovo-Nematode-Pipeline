@@ -24,6 +24,7 @@ fasterq-dump SRR16242712
 ```
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ```
 #create the input file
@@ -128,6 +129,9 @@ fasterq-dump SRR16242712
 ```
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+------------------------------------------------------------------------------------------------------------------------------------------------
+The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, and we don't use these programs enough to request their download. Thus, I've just created conda environments for these. You can try using the anaconda module on HPC (module load anaconda2), but I downloaded my own anaconda a long time ago. You can get the linux version of anaconda here: https://www.anaconda.com/download
+Miniconda or Mamba probably work too, I just haven't tried.
 
 ```
 conda create -n canu
