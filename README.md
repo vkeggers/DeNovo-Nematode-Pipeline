@@ -222,10 +222,38 @@ squeue --me
 
 </details>
 
-We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Nanopore reads while the above only require Nanopore and Illumina.
+We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Nanopore reads while the above only require Nanopore and Illumina. If you can, then Verkko is highly recommended. 
 
 <details>
 	<summary>Verkko</summary>
+
+https://github.com/marbl/verkko
+
+Install Verkko with Conda:
+```
+conda create -n verkko -c conda-forge -c bioconda -c defaults verkko
+conda activate verkko
+```
+
+Create the script:
+```
+vi verkko.sh
+```
+
+Press[i] for instertion and copy/paste the following:
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%assembly.log
+#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-type=ALL
+
+verkko -d <work-directory> --hifi <hifi-read-files> --nano <ont-read-files>
+```
+	
 </details>
 
 </details>
