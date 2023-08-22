@@ -137,12 +137,15 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, and we don't use these programs enough to request their download. Thus, I've just created conda environments for these. You can try using the anaconda module on HPC (module load anaconda2), but I downloaded my own anaconda a long time ago. You can get the linux version of anaconda here: https://www.anaconda.com/download
 Miniconda or Mamba probably work too, I just haven't tried.
 
+
+Get Canu
 ```
 conda create -n canu
 conda activate canu
 conda install -c bioconda canu
 ```
 
+Create script
 ```
 vi canu_correction.sh
 ```
@@ -178,13 +181,14 @@ squeue --me
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-
+Get Flye
 ```
 conda create -n flye
 conda activate flye
 conda install -c bioconda flye
 ```
 
+Create the script
 ```
 vi flye_assemble.sh
 ```
@@ -204,6 +208,16 @@ module load bio/bioinfo-gcc
 module load python/python3/3.6.5
 
 /jlf/jdmillwood/Flye/bin/flye --nano-corr /jlf/vkeggers/DF5018_2/canu_out/DF5018_2.correctedReads.fasta.gz -o flye_try -t 8 --genome-size 120M
+```
+
+Run the script with: 
+```
+sbatch < canu_correction.sh
+```
+
+To see if your job is running type the following command:
+```
+squeue --me
 ```
 
 </details>
