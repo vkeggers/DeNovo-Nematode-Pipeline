@@ -81,7 +81,7 @@ Press [i] for insert mode and copy the below script
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%assemble .log
+#SBATCH --output=out_%assemble.log
 #SBATCH --mail-user=vegge003@fiu.edu 	#use your own email instead
 #SBATCH --mail-type=ALL
 
@@ -157,7 +157,7 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%assembly.log
+#SBATCH --output=out_%canu_correct.log
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
@@ -199,7 +199,7 @@ vi flye_assemble.sh
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%assembly.log
+#SBATCH --output=out_%flye_assembly.log
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
@@ -247,7 +247,7 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%assembly.log
+#SBATCH --output=out_%verkko.log
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
