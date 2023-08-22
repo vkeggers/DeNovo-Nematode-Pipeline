@@ -176,6 +176,9 @@ To see if your job is running type the following command:
 squeue --me
 ```
 
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 ```
 conda create -n flye
 conda activate flye
