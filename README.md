@@ -130,12 +130,37 @@ fasterq-dump SRR16242712
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
 
 ```
-vi canu_assemble.sh
+vi canu_correction.sh
 ```
 Hit [i] for insertion mode and copy/paste the following:
 
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%assembly.log
+#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-type=ALL
+
+module load canu-2.1-gcc-8.2.0
+
+canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore ./SRR16242712.fastq
+```
+
+Save by pressing [esc], type ':wq' and press [enter]
 
 
+Run the script with: 
+```
+sbatch < canu_correction.sh
+```
+
+To see if your job is running type the following command:
+```
+squeue --me
+```
 
 </details>
 
