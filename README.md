@@ -288,6 +288,11 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+If you assembled with NextDenovo, proceed with NextPolish. If you assembled with Flye, proceed with Pilon.
+
+<details>
+<summary>NextPolish</summary>
+
 https://github.com/Nextomics/NextPolish
 ```
 #create the input file
@@ -333,6 +338,15 @@ nextPolish run.cfg
 ```
 
 Run the script. The output will be a file with pid***** and a directory named 01_rundir. The directory contains genome.nextpolish.fasta (the polished genome) and genome.nextpolish.fasta.stat (stats about the corrections made). Please rename the file if working with multiple genomes because all will come out with the same name and it could get confusing. 
+
+</details>
+
+<details>
+<summary>Pilon</summary>
+
+https://github.com/broadinstitute/pilon
+
+</details>
 
 </details>
 
