@@ -3,7 +3,10 @@ This pipeline is in reference to and building off of https://github.com/BamaComp
 Everything can be done as listed using the FIU HPC. 
 
 <details>
-<summary>Assembly</summary>
+<summary>
+	
+##Assembly
+</summary>
 
 We have assembly methods for nextDenovo and Flye programs. However, we find nextDenovo to generally be better and more contiguous. 
 
@@ -275,7 +278,10 @@ verkko -d <work-directory> --hifi <hifi-read-files> --nano <ont-read-files>
 
 
 <details>
-<summary>Assembly Polishing</summary>
+<summary>
+	
+##Assembly Polishing
+</summary>
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. 
 
@@ -352,7 +358,10 @@ https://github.com/broadinstitute/pilon
 
 <details>
 
-<summary>Quality Check</summary>
+<summary>
+	
+##Quality Check
+</summary>
 
 We use QUAST and BUSCO to check the quality of our genome assemblies. There are two ways of doing this: module load from the hpc, or creating a conda environment. 
 
