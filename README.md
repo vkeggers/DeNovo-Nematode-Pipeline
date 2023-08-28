@@ -387,12 +387,8 @@ samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
 samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
 samtools index ./pilon_out/bwa.sort
 
-module load java/1.8.0
-module load bio/bioinfo-java
 ##Pilon it 
 java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon1
-module unload java/1.8.0
-module unload bio/bioinfo-java
 
 ## ROUND 2 ##
 GENOME=./pilon_out/${LINE_NAME}_pilon1.fasta 
@@ -406,12 +402,10 @@ samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
 samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
 samtools index ./pilon_out/bwa.sort
 
-module load java/1.8.0
-module load bio/bioinfo-java
+
 ##Pilon it 
 java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon2
-module unload java/1.8.0
-module unload bio/bioinfo-java
+
 
 ## ROUND 3 ##
 GENOME=./pilon_out/${LINE_NAME}_pilon2.fasta 
@@ -425,12 +419,9 @@ samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
 samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
 samtools index ./pilon_out/bwa.sort
 
-module load java/1.8.0
-module load bio/bioinfo-java
 ##Pilon it 
 java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon3
-module unload java/1.8.0
-module unload bio/bioinfo-java
+
 
 
 ## ROUND 4 ##
@@ -445,10 +436,9 @@ samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
 samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
 samtools index ./pilon_out/bwa.sort
 
-module load java/1.8.0
-module load bio/bioinfo-java
 ##Pilon it 
 java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./:pilon_out/${LINE_NAME}_pilon4
+```
 
 </details>
 
