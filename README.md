@@ -222,7 +222,7 @@ vi flye_assemble.sh
 
 conda activate flye
 
-flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta.gz -o flye_assembly -t 8 --genome-size 120M
+flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta -o flye_assembly -t 8 --genome-size 120M
 ```
 
 Run the script with: 
