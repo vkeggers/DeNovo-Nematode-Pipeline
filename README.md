@@ -183,6 +183,10 @@ To see if your job is running type the following command:
 squeue --me
 ```
 
+This job took 2.5 days to finish, but could be sped up by giving it more resources. Try adding "#SBATCH -n 8" and "#SBATCH --mem=128G" to the script.
+
+The output is in canu_out. The corrected reads are the file: *.correctedReads.fasta.gz
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 https://github.com/fenderglass/Flye
@@ -205,20 +209,18 @@ vi flye_assemble.sh
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%flye_assembly.log
+#SBATCH --output=out_%assembly.log
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
+conda activate flye
 
-module load bio/bioinfo-gcc
-module load python/python3/3.6.5
-
-/jlf/jdmillwood/Flye/bin/flye --nano-corr /jlf/vkeggers/DF5018_2/canu_out/DF5018_2.correctedReads.fasta.gz -o flye_try -t 8 --genome-size 120M
+flye --nano-corr ./canu_out/PB127_canu.correctedReads.fasta.gz -o flye_assembly -t 8 --genome-size 120M
 ```
 
 Run the script with: 
 ```
-sbatch < canu_correction.sh
+sbatch < flye_assemble.sh
 ```
 
 To see if your job is running type the following command:
