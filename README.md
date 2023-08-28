@@ -187,6 +187,12 @@ This job took 2.5 days to finish, but could be sped up by giving it more resourc
 
 The output is in canu_out. The corrected reads are the file: *.correctedReads.fasta.gz
 
+However, an error is thrown because some of the read names match in the first column. To fix this we unzip the file, and replace the spaces with underscores so that the whole column is one long name. 
+
+```
+gunzip *.correctedReads.fasta.gz
+cat *.correctedReads.fasta | sed 's/ /_/g' > correctedReads2.fasta
+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 https://github.com/fenderglass/Flye
@@ -215,7 +221,7 @@ vi flye_assemble.sh
 
 conda activate flye
 
-flye --nano-corr ./canu_out/PB127_canu.correctedReads.fasta.gz -o flye_assembly -t 8 --genome-size 120M
+flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta.gz -o flye_assembly -t 8 --genome-size 120M
 ```
 
 Run the script with: 
