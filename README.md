@@ -426,12 +426,18 @@ QUAST only takes a minute or two and the output is in the directory PB127_quast.
 
 <details>
 
- <summary>Decontamination</summary>
+ <summary>
+	 
+## Decontamination
+</summary>
  
 </details>
 
 
 <details>
 
- <summary>Quality Check</summary>
+ <summary>
+	 
+## Quality Check
+</summary>
 </details>
