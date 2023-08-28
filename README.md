@@ -352,6 +352,104 @@ Run the script. The output will be a file with pid***** and a directory named 01
 
 https://github.com/broadinstitute/pilon
 
+Create the script:
+```
+vi pilon.sh
+```
+
+Hit [i] for insertion mode and copy/paste the following:
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%pilon.log
+#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-type=ALL
+
+module load pilon-1.22-gcc-8.2.0-33xdiwt
+
+FORWARD=[PATH TO FASTQ_1]
+REVERSE=[PATH TO FASTQ_2]
+LINE_NAME=PB127 ## YOUR LINE
+mkdir ./pilon_out/
+
+## ROUND 1 ##
+GENOME=[ path to assembled genome]
+#index genome 
+bwa index ${GENOME}
+#align reads
+bwa mem -t 8 -M ${GENOME} ${FORWARD} ${REVERSE}  > ./pilon_out/bwa.sam
+#sam to bam
+samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
+##Sort and index the BAM 
+samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
+samtools index ./pilon_out/bwa.sort
+
+module load java/1.8.0
+module load bio/bioinfo-java
+##Pilon it 
+java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon1
+module unload java/1.8.0
+module unload bio/bioinfo-java
+
+## ROUND 2 ##
+GENOME=./pilon_out/${LINE_NAME}_pilon1.fasta 
+#index genome 
+bwa index ${GENOME}
+#align reads
+bwa mem -t 8 -M ${GENOME} ${FORWARD} ${REVERSE}  > ./pilon_out/bwa.sam
+#sam to bam
+samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
+##Sort and index the BAM 
+samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
+samtools index ./pilon_out/bwa.sort
+
+module load java/1.8.0
+module load bio/bioinfo-java
+##Pilon it 
+java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon2
+module unload java/1.8.0
+module unload bio/bioinfo-java
+
+## ROUND 3 ##
+GENOME=./pilon_out/${LINE_NAME}_pilon2.fasta 
+#index genome 
+bwa index ${GENOME}
+#align reads
+bwa mem -t 8 -M ${GENOME} ${FORWARD} ${REVERSE}  > ./pilon_out/bwa.sam
+#sam to bam
+samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
+##Sort and index the BAM 
+samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
+samtools index ./pilon_out/bwa.sort
+
+module load java/1.8.0
+module load bio/bioinfo-java
+##Pilon it 
+java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./pilon_out/${LINE_NAME}_pilon3
+module unload java/1.8.0
+module unload bio/bioinfo-java
+
+
+## ROUND 4 ##
+GENOME=./pilon_out/${LINE_NAME}_pilon3.fasta 
+#index genome 
+bwa index ${GENOME}
+#align reads
+bwa mem -t 8 -M ${GENOME} ${FORWARD} ${REVERSE}  > ./pilon_out/bwa.sam
+#sam to bam
+samtools view -Sb ./pilon_out/bwa.sam > ./pilon_out/bwa.bam
+##Sort and index the BAM 
+samtools sort ./pilon_out/bwa.bam -o ./pilon_out/bwa.sort
+samtools index ./pilon_out/bwa.sort
+
+module load java/1.8.0
+module load bio/bioinfo-java
+##Pilon it 
+java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./:pilon_out/${LINE_NAME}_pilon4
+
 </details>
 
 </details>
