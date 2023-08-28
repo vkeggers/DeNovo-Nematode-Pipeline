@@ -192,6 +192,7 @@ However, an error is thrown because some of the read names match in the first co
 ```
 gunzip *.correctedReads.fasta.gz
 cat *.correctedReads.fasta | sed 's/ /_/g' > correctedReads2.fasta
+```
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
