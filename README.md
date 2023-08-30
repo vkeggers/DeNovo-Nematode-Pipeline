@@ -265,13 +265,24 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH --account iacc_jfierst
 #SBATCH --qos highmem1
 #SBATCH --partition highmem1
-#SBATCH --output=out_%verkko.log
-#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+# Number of nodes
+#SBATCH -N 1
+
+# Number of tasks
+#SBATCH -n 16
+
+#SBATCH --output=out_verkko.log
+#SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
+
+
+export VERKKO=/home/data/jfierst/veggers/anaconda3/envs/verkko/lib/verkko/bin
 
 verkko -d <work-directory> --hifi <hifi-read-files> --nano <ont-read-files>
 ```
-	
+
+The SnakeMake script that Verkko runs on specifies 4CPUs, thus an error will occur if you are trying to run it on HPC without specifying the cores (#SBATCH -n 16)
+ 
 </details>
 
 </details>
