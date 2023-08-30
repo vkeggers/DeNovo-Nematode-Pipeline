@@ -168,7 +168,7 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
-conda activate canu
+#conda activate canu
 
 canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./SRR16242712.fastq
 ```
@@ -213,6 +213,7 @@ Create the script
 vi flye_assemble.sh
 ```
 
+Hit [i] for insertion mode and copy/paste the following:
 ```
 #!/bin/bash
 
@@ -223,10 +224,11 @@ vi flye_assemble.sh
 #SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
-conda activate flye
+#conda activate flye    
 
 flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta -o flye_assembly -t 8 --genome-size 120M
 ```
+Save and exit by pressing [esc], typing ":wq" and then [enter]
 
 Run the script with: 
 ```
@@ -237,6 +239,10 @@ To see if your job is running type the following command:
 ```
 squeue --me
 ```
+
+The final assembly is in ./flye_assembly/assembly.fasta
+
+This took approximately 4hrs to assemble a worm genome ~100Mb
 
 </details>
 
@@ -275,13 +281,29 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
 
+#conda activate verkko 
 
 export VERKKO=/home/data/jfierst/veggers/anaconda3/envs/verkko/lib/verkko/bin
 
 verkko -d <work-directory> --hifi <hifi-read-files> --nano <ont-read-files>
 ```
+Save and exit by pressing [esc], typing ":wq" and then [enter]
+
+Run the script with: 
+```
+sbatch < verkko.sh
+```
+
+To see if your job is running type the following command:
+```
+squeue --me
+```
 
 The SnakeMake script that Verkko runs on specifies 4CPUs, thus an error will occur if you are trying to run it on HPC without specifying the cores (#SBATCH -n 16)
+
+The assembly is in the output directory and named assembly.fasta
+
+This takes about 2 hours to complete on a worm genome (~100Mb)
  
 </details>
 
