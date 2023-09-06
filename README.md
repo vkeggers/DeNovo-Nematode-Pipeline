@@ -302,7 +302,7 @@ This takes about 2 hours to complete on a worm genome (~100Mb)
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. 
 
-Find the Illumina data associated with _Oscheius_ sp.G on NCBI SRA. You should get the asseccion number: SRR16242711. If you already have your own data then skip down and start at the line of code that says #create the input file.
+Find the Illumina data associated with _Oscheius_ sp.G on NCBI SRA. You should get the asseccion number: SRR16242711. If you already have your own data then skip down to the appropriate polishing method.
 
 ```
 fasterq-dump SRR16242711
