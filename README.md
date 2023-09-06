@@ -10,10 +10,8 @@ Everything can be done as listed using the FIU HPC.
 
 We have assembly methods for nextDenovo and Flye programs. However, we find nextDenovo to generally be better and more contiguous. 
 
-<details>
-<summary>nextDenovo</summary>
 
-If you have your own data already, skip down and start at the line of code that says #create the input file.
+If you have your own data already, skip down to your chosen assembly method.
 	
 ```
 module load sratoolkit-3.0.0
@@ -30,6 +28,9 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+<details>
+<summary>nextDenovo</summary>
 
 https://github.com/Nextomics/NextDenovo
 ```
@@ -121,23 +122,6 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 <details>
 	<summary>Flye</summary>
 	
-If you have your own data already, skip down and start conda installation.
-	
-```
-module load sratoolkit-3.0.0
-```
-
-Go to NCBI SRA and search _Oscheius_. use the filters at the side to narrow it down to genome and nanopore reads. Find the sra ID for _Oscheius_ sp.G, the number is **SRR16242712**
-
-```
-fasterq-dump SRR16242712
-#this will take a while and give you no feedback so just believe it will work.
-```
-
-If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
-
-
-------------------------------------------------------------------------------------------------------------------------------------------------
 
 https://canu.readthedocs.io/en/latest/quick-start.html#quickstart
 
