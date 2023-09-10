@@ -546,3 +546,44 @@ QUAST only takes a minute or two and the output is in the directory PB127_quast.
 ## Quality Check
 </summary>
 </details>
+
+
+
+
+
+
+<details>
+
+ <summary>
+	 
+## Masking Repeats
+</summary>
+ 
+</details>
+
+
+
+
+
+<details>
+
+ <summary>
+	 
+## Gene Annotation
+</summary>
+ 
+</details>
+
+
+
+
+
+
+<details>
+
+ <summary>
+	 
+## Repeat Annotation
+</summary>
+ 
+</details>
