@@ -230,7 +230,7 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 
 </details>
 
-We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Nanopore reads while the above only require Nanopore and Illumina. If you can, then Verkko is highly recommended. 
+We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Ultra Long Nanopore reads while the above only require Nanopore and Illumina. If you can, then Verkko is highly recommended. 
 
 <details>
 	<summary>Verkko</summary>
@@ -262,14 +262,14 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH -n 16
 
 #SBATCH --output=out_verkko.log
-#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
 #SBATCH --mail-type=ALL
 
 #conda activate verkko 
 
-export VERKKO=/home/data/jfierst/veggers/anaconda3/envs/verkko/lib/verkko/bin
+export VERKKO=/your/path/to/verkko/bin
 
-verkko -d <work-directory> --hifi <hifi-read-files> --nano <ont-read-files>
+verkko -d <work-directory> --hifi <hifi-fastq-files> --nano <ont-fastq-files>
 ```
 Save and exit by pressing [esc], typing ":wq" and then [enter]
 
