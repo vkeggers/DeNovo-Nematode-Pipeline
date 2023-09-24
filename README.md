@@ -10,7 +10,7 @@ Press on arrows to expand contents.
 ## Data may be obtained through NCBI
 </summary>
 
-Nanopore:
+**Nanopore:**
 ```
 module load sratoolkit-3.0.0
 ```
@@ -24,7 +24,7 @@ fasterq-dump SRR16242712
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
 
-Illumina:
+**Illumina:**
 
 ```
 fasterq-dump SRR16242711
