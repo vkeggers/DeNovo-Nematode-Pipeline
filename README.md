@@ -7,6 +7,35 @@ Press on arrows to expand contents.
 <details>
 <summary>
 	
+## Data may be obtained through NCBI
+</summary>
+
+Nanopore:
+```
+module load sratoolkit-3.0.0
+```
+
+Go to NCBI SRA and search _Oscheius_. use the filters at the side to narrow it down to genome and nanopore reads. Find the sra ID for _Oscheius_ sp.G, the number is **SRR16242712**
+
+```
+fasterq-dump SRR16242712
+#this will take a while and give you no feedback so just believe it will work.
+```
+
+If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+
+Illumina:
+
+```
+fasterq-dump SRR16242711
+```
+If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
+
+</details>
+
+<details>
+<summary>
+	
 ## Assembly
 </summary>
 
@@ -22,22 +51,6 @@ We have tried assembly with:
 
 
 Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
-
-
-If you have your own data already, skip down to your chosen assembly method.
-	
-```
-module load sratoolkit-3.0.0
-```
-
-Go to NCBI SRA and search _Oscheius_. use the filters at the side to narrow it down to genome and nanopore reads. Find the sra ID for _Oscheius_ sp.G, the number is **SRR16242712**
-
-```
-fasterq-dump SRR16242712
-#this will take a while and give you no feedback so just believe it will work.
-```
-
-If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -393,13 +406,6 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 </summary>
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. 
-
-Find the Illumina data associated with _Oscheius_ sp.G on NCBI SRA. You should get the asseccion number: SRR16242711. If you already have your own data then skip down to the appropriate polishing method.
-
-```
-fasterq-dump SRR16242711
-```
-If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
