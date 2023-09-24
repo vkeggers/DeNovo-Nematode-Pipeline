@@ -102,7 +102,7 @@ Save by pressing [esc], type ':wq' and press [enter]
 
 Run the script with: 
 ```
-sbatch < assemble.sh
+sbatch assemble.sh
 ```
 
 To see if your job is running type the following command:
@@ -113,7 +113,7 @@ squeue --me
 There is a common issue some face and you may need to load modules before you run the script. In which case use:
 ```
 module load nextDenovo-2.5.0
-sbatch < assemble.sh
+sbatch assemble.sh
 ```
 
 The final assembly result is at 03.ctg_graph/nd.asm.fasta
@@ -164,7 +164,7 @@ Save by pressing [esc], type ':wq' and press [enter]
 
 Run the script with: 
 ```
-sbatch < canu_correction.sh
+sbatch canu_correction.sh
 ```
 
 To see if your job is running type the following command:
@@ -218,7 +218,7 @@ Save and exit by pressing [esc], typing ":wq" and then [enter]
 
 Run the script with: 
 ```
-sbatch < flye_assemble.sh
+sbatch flye_assemble.sh
 ```
 
 To see if your job is running type the following command:
@@ -233,6 +233,11 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 </details>
 
 We have also assembled using Verkko and Hifiasm, which are more current best practice assemblers. However this requires PacBio and/or Ultra Long Nanopore reads while flye and nextdenovo only require Nanopore and Illumina.  
+
+Before starting the assembly you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
+```
+awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; if (length(seq) >= MIN_SIZE) print "@"$0, seq, sep, qual}' MIN_SIZE=50000 ontReads.fastq > filteredONT.fastq
+```
 
 <details>
 	<summary>Verkko</summary>
@@ -277,7 +282,7 @@ Save and exit by pressing [esc], typing ":wq" and then [enter]
 
 Run the script with: 
 ```
-sbatch < verkko.sh
+sbatch verkko.sh
 ```
 
 To see if your job is running type the following command:
@@ -314,6 +319,53 @@ Conda
 conda create -n hifiasm
 conda activate hifiasm
 conda install -c bioconda hifiasm
+```
+
+Create the script:
+```
+vi hifiasm_assembly.sh
+```
+
+Press[i] for instertion and copy/paste the following:
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_hifi.log
+#SBATCH --mail-user=vegge003@fiu.edu  #insert your own email
+#SBATCH --mail-type=ALL
+
+
+#pacbio reads only
+hifiasm -o sample.asm -t 32 /path/to/hifi_reads.fastq
+
+
+#pacbio with nanopore reads over 50kb
+hifiasm -o sample.asm -t 32 --ul /path/to/filteredONT.fastq /path/to/hifi_reads.fastq
+
+#if you installed with git then you need to include the full path to hifiasm
+#make sure to comment out the option you do not want
+#if you have it installed as a conda environment, make sure to load the environment before running the script
+```
+
+Save and exit by pressing [esc], typing ":wq" and then [enter]
+
+Run the script with: 
+```
+sbatch hifiasm_assembly.sh
+```
+
+To see if your job is running type the following command:
+```
+squeue --me
+```
+Takes about 1 hour on a 100Mb worm genome. 
+
+When complete, your assembly files are .gfa files, which are information about the overlap graphs. To change them into fasta files you can use awk:
+```
+awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 ```
 
 </details>
