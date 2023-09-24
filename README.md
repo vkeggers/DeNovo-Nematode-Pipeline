@@ -10,7 +10,20 @@ Press on arrows to expand contents.
 ## Assembly
 </summary>
 
-We have assembly methods for nextDenovo and Flye programs. However, we find nextDenovo to generally be better and more contiguous. 
+We have tried assembly with:
+
+flye
+
+nextdenovo
+
+verkko
+
+hifiasm
+
+
+flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT.
+
+Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous. 
 
 
 If you have your own data already, skip down to your chosen assembly method.
