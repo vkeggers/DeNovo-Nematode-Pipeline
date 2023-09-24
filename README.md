@@ -4,10 +4,18 @@ Everything can be done as listed using the FIU HPC.
 
 Press on arrows to expand contents.
 
+
 <details>
 <summary>
 	
-## Data may be obtained through NCBI
+## Upload raw data to NCBI SRA
+</summary>
+</details>
+
+<details>
+<summary>
+	
+## Data may be obtained through NCBI SRA
 </summary>
 
 **Nanopore:**
