@@ -2,6 +2,8 @@
 This pipeline is in reference to and building off of https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md
 Everything can be done as listed using the FIU HPC. 
 
+Press on arrows to expand contents.
+
 <details>
 <summary>
 	
@@ -230,7 +232,7 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 
 </details>
 
-We have also assembled using Verkko, which is the more current best practice. However this requires PacBio and Ultra Long Nanopore reads while the above only require Nanopore and Illumina. If you can, then Verkko is highly recommended. 
+We have also assembled using Verkko and Hifiasm, which are more current best practice assemblers. However this requires PacBio and/or Ultra Long Nanopore reads while flye and nextdenovo only require Nanopore and Illumina.  
 
 <details>
 	<summary>Verkko</summary>
@@ -289,6 +291,31 @@ The assembly is in the output directory and named assembly.fasta
 
 This takes about 2 hours to complete on a worm genome (~100Mb)
  
+</details>
+
+<details>
+	<summary>Hifiasm</summary>
+
+https://github.com/chhylp123/hifiasm
+
+https://hifiasm.readthedocs.io/en/latest/faq.html
+
+Install Hifiasm with git or conda:
+
+Git
+```
+git clone https://github.com/chhylp123/hifiasm
+cd hifiasm
+make
+```
+
+Conda
+```
+conda create -n hifiasm
+conda activate hifiasm
+conda install -c bioconda hifiasm
+```
+
 </details>
 
 </details>
