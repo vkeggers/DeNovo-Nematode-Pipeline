@@ -12,18 +12,16 @@ Press on arrows to expand contents.
 
 We have tried assembly with:
 
-flye
+*flye
 
-nextdenovo
+*nextdenovo
 
-verkko
+*verkko
 
-hifiasm
+*hifiasm
 
 
-flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT.
-
-Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous. 
+Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
 
 
 If you have your own data already, skip down to your chosen assembly method.
@@ -48,6 +46,8 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 <summary>nextDenovo</summary>
 
 https://github.com/Nextomics/NextDenovo
+
+Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous.
 ```
 #create the input file
 ls SRR16242712.fastq > input.fofn
