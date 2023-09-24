@@ -12,13 +12,13 @@ Press on arrows to expand contents.
 
 We have tried assembly with:
 
-*flye
+* flye
 
-*nextdenovo
+* nextdenovo
 
-*verkko
+* verkko
 
-*hifiasm
+* hifiasm
 
 
 Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
