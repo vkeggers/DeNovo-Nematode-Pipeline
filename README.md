@@ -258,9 +258,7 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 
 </details>
 
-We have also assembled using Verkko and Hifiasm, which are more current best practice assemblers. However this requires PacBio and/or Ultra Long Nanopore reads while flye and nextdenovo only require Nanopore and Illumina.  
-
-Before starting the assembly you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
+Before starting Verkko or hifiasm, you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
 ```
 awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; if (length(seq) >= MIN_SIZE) print "@"$0, seq, sep, qual}' MIN_SIZE=50000 ontReads.fastq > filteredONT.fastq
 ```
