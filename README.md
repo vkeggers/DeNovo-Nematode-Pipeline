@@ -276,6 +276,8 @@ awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; 
 
 https://github.com/marbl/verkko
 
+Verkko does not do well with little coverage.
+
 Install Verkko with Conda:
 ```
 conda create -n verkko -c conda-forge -c bioconda -c defaults verkko
