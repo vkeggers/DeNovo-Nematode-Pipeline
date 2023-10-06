@@ -635,15 +635,18 @@ QUAST only takes a minute or two and the output is in the directory PB127_quast.
 
 The html files are files that display the information in a graphical way using icarus viewer. To view these files, you need to download them to your local machine and then click to open them.
 
-type 'exit' to logout of the hpc
+```
+#logout of the hpc
+exit
 
+#connect to hpc using sftp (secure file transfer)
 sftp username@hpclogin01.fiu.edu
-
-password
 
 get /path/to/file.html
 
-'exit'
+#logout of hpc
+exit
+```
 
 The .html file should now be in your home directory of your local machine.
 
