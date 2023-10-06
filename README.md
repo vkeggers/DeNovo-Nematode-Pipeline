@@ -631,7 +631,21 @@ module load quast-5.2.0  #may need to load before running script
 quast.py -t 4 --eukaryote --plots-format pdf /your/path/to/01_rundir/genome.nextpolish.fasta -o ./PB127_quast/
 ```
 
-QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. The html files are files that display the information in a graphical way using icarus viewer.
+QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. 
+
+The html files are files that display the information in a graphical way using icarus viewer. To view these files, you need to download them to your local machine and then click to open them.
+
+type 'exit' to logout of the hpc
+
+sftp username@hpclogin01.fiu.edu
+
+password
+
+get /path/to/file.html
+
+'exit'
+
+The .html file should now be in your home directory of your local machine.
 
 </details>
 
