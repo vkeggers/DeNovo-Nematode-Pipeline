@@ -169,6 +169,7 @@ Get Canu
 ```
 conda create -n canu
 conda activate canu
+	#if conda activate doesn't work, try source activate
 conda install -c bioconda canu
 ```
 
@@ -225,6 +226,7 @@ Get Flye
 ```
 conda create -n flye
 conda activate flye
+	#if conda activate doesn't work, try source activate
 conda install -c bioconda flye
 ```
 
@@ -282,6 +284,7 @@ Install Verkko with Conda:
 ```
 conda create -n verkko -c conda-forge -c bioconda -c defaults verkko
 conda activate verkko
+	#if conda activate doesn't work, try source activate
 ```
 
 Create the script:
@@ -352,6 +355,7 @@ Conda
 ```
 conda create -n hifiasm
 conda activate hifiasm
+	#if conda activate doesn't work, try source activate
 conda install -c bioconda hifiasm
 ```
 
