@@ -639,6 +639,12 @@ QUAST only takes a minute or two and the output is in the directory PB127_quast.
 
 The html files are files that display the information in a graphical way using icarus viewer. To view these files, you need to download them to your local machine and then click to open them.
 
+OPTION 1: use HPC GUI
+
+If you are using the web browser HPC access, then navigate to the files tab. Type the path to the directory with the file you want to download, select the file, and click download.
+
+OPTION 2: using HPC from computer terminal
+
 ```
 #logout of the hpc
 exit
