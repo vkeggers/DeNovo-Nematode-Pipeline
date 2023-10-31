@@ -611,7 +611,7 @@ busco -c 4 -m genome -i /your/path/to/01_rundir/genome.nextpolish.fasta -o busco
 Notice the AUGUSTUS_CONFIG_PATH. We need to copy the augustus directory, give it write permissions, and tell the program the path to that directory. 
 
 ```
-cp -R /home/data/jfierst/veggers/programs/Augustus/ /your/path/.
+cp -R /home/data/jfierst/veggers/programs/Augustus/config /your/path/.
 cd Augustus
 chmod +777 *  #this is a easy but unsafe way to make sure all directories within the directory Augustus each have all permissions. This will take some time.
 ```
