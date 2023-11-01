@@ -669,7 +669,6 @@ The .html file should now be in your home directory of your local machine.
 ## Decontamination
 </summary>
  
-</details>
 
 We use a machine learning program called SIDR to decontaminate our genomes. It is still in the process of being automated, but preliminary files that need to be generated at this time include: alignment bam file of your raw reads to your assembly, alignment bam file of your RNA reads (optional) to your assembly, and an output blast of your assembly against the nt database. 
 
@@ -699,7 +698,7 @@ For RNA reads to assembly we've used STAR for alignment.
 
 **BLAST**
 
-
+</details>
 
 <details>
 
