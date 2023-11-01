@@ -712,6 +712,13 @@ https://github.com/Gaius-Augustus/BRAKER
 
 BRAKER3 is incorporating RNA and Protein Data using GeneMark-ETP and AUGUSTUS. It is used for protein predictions and de novo protein annotations, but is heavily reliant on the data you give it. 
 
+**AGAT**
+
+https://github.com/NBISweden/AGAT
+
+AGAT is used to covert the .gtf output file from BRAKER, to a .gff3 file format. It also calculates some basic statistics such as gene count.
+
+
 **InterProScan**
 
 https://interproscan-docs.readthedocs.io/en/latest/
