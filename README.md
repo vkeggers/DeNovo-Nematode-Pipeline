@@ -688,10 +688,12 @@ For DNA reads to assembly we've used minimap for alignment.
 minimap2 -ax map-hifi /path/to/configs.fa /path/to/rawreads.fastq.gz > aln.sam
 ```
 
-Once the sam file is generated, let's change that to a bam file. sam and bam files contain the same information except that bam files are in binary format, which is not human readable. 
+Once the sam file is generated, let's change that to a sorted and indexed bam file. sam and bam files contain the same information except that bam files are in binary format, which is not human readable. 
 
 ```
-samtools view -Sb /path/to/alignment.sam -o /path/to/alignment.bam
+samtools view -Sb /path/to/alignment.sam -o ./alignment.bam
+samtools sort -o ./alignment_sorted.bam ./alignment.bam
+samtools index ./alignment_sorted.bam ./alignment_index.bam
 ```
 
 For RNA reads to assembly we've used STAR for alignment.
