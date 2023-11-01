@@ -704,6 +704,19 @@ The .html file should now be in your home directory of your local machine.
 	 
 ## Gene Annotation
 </summary>
+
+
+**BRAKER3**
+
+https://github.com/Gaius-Augustus/BRAKER
+
+BRAKER3 is incorporating RNA and Protein Data using GeneMark-ETP and AUGUSTUS. It is used for protein predictions and de novo protein annotations, but is heavily reliant on the data you give it. 
+
+**InterProScan**
+
+https://interproscan-docs.readthedocs.io/en/latest/
+
+InterProScan scans the InterPro database to predict protein function and domains.
  
 </details>
 
