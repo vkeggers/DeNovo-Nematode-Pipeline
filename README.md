@@ -671,6 +671,35 @@ The .html file should now be in your home directory of your local machine.
  
 </details>
 
+We use a machine learning program called SIDR to decontaminate our genomes. It is still in the process of being automated, but preliminary files that need to be generated at this time include: alignment bam file of your raw reads to your assembly, alignment bam file of your RNA reads (optional) to your assembly, and an output blast of your assembly against the nt database. 
+
+For DNA reads to assembly we've used minimap for alignment.
+
+```
+#!/bin/bash
+
+#SBATCH --account [YOUR_ACCOUNT]
+#SBATCH --qos [YOUR_QOS]
+#SBATCH --partition [YOUR_PARTITION]
+#SBATCH -n 8
+#SBATCH --output=out_%minimap.log
+#SBATCH --mail-user=[YOUR_EMAIL]
+#SBATCH --mail-type=ALL
+
+minimap2 -ax map-hifi /path/to/configs.fa /path/to/rawreads.fastq.gz > aln.sam
+```
+
+Once the sam file is generated, let's change that to a bam file. sam and bam files contain the same information except that bam files are in binary format, which is not human readable. 
+
+```
+samtools view -Sb /path/to/alignment.sam -o /path/to/alignment.bam
+```
+
+For RNA reads to assembly we've used STAR for alignment.
+
+**BLAST**
+
+
 
 <details>
 
