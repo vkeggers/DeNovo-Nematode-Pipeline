@@ -685,12 +685,16 @@ For DNA reads to assembly we've used minimap for alignment.
 #SBATCH --mail-user=[YOUR_EMAIL]
 #SBATCH --mail-type=ALL
 
+module load minimap2-2.24
+
 minimap2 -ax map-hifi /path/to/configs.fa /path/to/rawreads.fastq.gz > aln.sam
 ```
 
 Once the sam file is generated, let's change that to a sorted and indexed bam file. sam and bam files contain the same information except that bam files are in binary format, which is not human readable. 
 
 ```
+module load samtools-1.15.1-gcc-8.2.0
+
 samtools view -Sb /path/to/alignment.sam -o ./alignment.bam
 samtools sort -o ./alignment_sorted.bam ./alignment.bam
 samtools index ./alignment_sorted.bam ./alignment_index.bam
