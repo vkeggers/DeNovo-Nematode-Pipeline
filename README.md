@@ -668,7 +668,8 @@ The .html file should now be in your home directory of your local machine.
 	 
 ## Decontamination
 </summary>
- SIDR: 
+ **SIDR**
+ 
  https://pypi.org/project/SIDR/
  
 **It is still in progress and experimental.**
