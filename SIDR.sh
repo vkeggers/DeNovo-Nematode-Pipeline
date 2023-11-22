@@ -101,178 +101,176 @@ cd stats
 #total_bases[$1]++ is basically the length of the contig by adding to the count even if the base does not have coverage
 
 #pacbio
-#samtools depth ./../samsANDbams/PBaln_sorted.bam > PBcoverage.txt
+samtools depth ./../samsANDbams/PBaln_sorted.bam > PBcoverage.txt
 
-#awk '{
-#    if ($3 > 0) {
-#        covered_bases[$1]++;
-#        sum[$1] += $3;
-#    }
-#    total_bases[$1]++;
-#}
-#END {
-#    for (contig in sum) {
-#        avg_fold = sum[contig] / total_bases[contig];
-#        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
-#
-#        print contig, covered_bases[contig], coverage_percentage;
-#    }
-#}' PBcoverage.txt | sort -k1,1 > PBcoverageStats.txt
-#sed -i 's/ /\t/g' PBcoverageStats.txt
+awk '{
+    if ($3 > 0) {
+        covered_bases[$1]++;
+        sum[$1] += $3;
+    }
+    total_bases[$1]++;
+}
+END {
+    for (contig in sum) {
+        avg_fold = sum[contig] / total_bases[contig];
+        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
+
+        print contig, covered_bases[contig], avg_fold, coverage_percentage;
+    }
+}' PBcoverage.txt | sort -k1,1 > PBcoverageStats.txt
+sed -i 's/ /\t/g' PBcoverageStats.txt
 
 #ONT
-#samtools depth ./../samsANDbams/ONTaln_sorted.bam > ONTcoverage.txt
+samtools depth ./../samsANDbams/ONTaln_sorted.bam > ONTcoverage.txt
 
-#awk '{
-#    if ($3 > 0) {
-#        covered_bases[$1]++;
-#        sum[$1] += $3;
-#    }
-#    total_bases[$1]++;
-#}
-#END {
-#    for (contig in sum) {
-#        avg_fold = sum[contig] / total_bases[contig];
-#        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
+awk '{
+    if ($3 > 0) {
+        covered_bases[$1]++;
+        sum[$1] += $3;
+    }
+    total_bases[$1]++;
+}
+END {
+    for (contig in sum) {
+        avg_fold = sum[contig] / total_bases[contig];
 
-#        print contig, covered_bases[contig], coverage_percentage;
-#    }
-#}' ONTcoverage.txt | sort -k1,1 > ONTcoverageStats.txt
-#sed -i 's/ /\t/g' ONTcoverageStats.txt
+        print contig, covered_bases[contig], avg_fold;
+    }
+}' ONTcoverage.txt | sort -k1,1 > ONTcoverageStats.txt
+sed -i 's/ /\t/g' ONTcoverageStats.txt
 
 
 #RNA
-#samtools depth ./../samsANDbams/RNAaln_sorted.bam > RNAcoverage.txt
+samtools depth ./../samsANDbams/RNAaln_sorted.bam > RNAcoverage.txt
 
-#awk '{
-#    if ($3 > 0) {
-#        covered_bases[$1]++;
-#        sum[$1] += $3;
-#    }
-#    total_bases[$1]++;
-#}
-#END {
-#    for (contig in sum) {
-#        avg_fold = sum[contig] / total_bases[contig];
-#        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
+awk '{
+    if ($3 > 0) {
+        covered_bases[$1]++;
+        sum[$1] += $3;
+    }
+    total_bases[$1]++;
+}
+END {
+    for (contig in sum) {
+        avg_fold = sum[contig] / total_bases[contig];
 
-#        print contig, covered_bases[contig], avg_fold;
-#    }
-#}' RNAcoverage.txt | sort -k1,1 > RNAcoverageStats.txt
-#sed -i 's/ /\t/g' RNAcoverageStats.txt
+        print contig, covered_bases[contig], avg_fold;
+    }
+}' RNAcoverage.txt | sort -k1,1 > RNAcoverageStats.txt
+sed -i 's/ /\t/g' RNAcoverageStats.txt
 
 
 #bbtools to calculate GC content of contigs, or Ref_GC
 #stats.sh in=${GENOME} gc=Ref_GC.txt gcformat=4
 #sed -i '1d' Ref_GC.txt
 
-#paste Ref_GC.txt RNAcoverageStats.txt | awk '{print ($5 / $2) * 100}' > RNA_Covered_percent.txt
-
+paste Ref_GC.txt RNAcoverageStats.txt | awk '{print ($5 / $2) * 100}' > RNA_Covered_percent.txt
+paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Covered_percent.txt
 
 #calculate GC content for reads over contig region
 #hifi
-mkdir PBgc_per_contig
-cd PBgc_per_contig
+#mkdir PBgc_per_contig
+#cd PBgc_per_contig
 
 
 #get contig names in list
-samtools view -H ./../../samsANDbams/PBaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
+#samtools view -H ./../../samsANDbams/PBaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
 
 #fix names (delete LN and ?)
-awk '{print $1}' contig_names.txt > fixed_names.txt
-bedtools bamtobed -i ./../../samsANDbams/PBaln_sorted.bam > output.bed
+#awk '{print $1}' contig_names.txt > fixed_names.txt
+#bedtools bamtobed -i ./../../samsANDbams/PBaln_sorted.bam > output.bed
 
 #for each contig in the fixed_names.txt file, make a temporary bed, take the reads in that bed region and input to a fastq, and then calculate GC by countin#g GC and dividing by total bases
-while read -r contig; do
-    grep "${contig}" output.bed > "${contig}"temp_output.bed
-    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/PBaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
-    rm "${contig}"temp_output.bed
-    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
-    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
-    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
-    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
-    echo -e "$contig\t$gc_content" >> PBread_gc.txt
-    rm "${contig}"reads.bam
-    rm "${contig}"reads.fastq
-done < fixed_names.txt
-cp PBread_gc.txt ./../.
-cd ..
+#while read -r contig; do
+#    grep "${contig}" output.bed > "${contig}"temp_output.bed
+#    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/PBaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
+#    rm "${contig}"temp_output.bed
+#    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
+#    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
+#    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
+#    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
+#    echo -e "$contig\t$gc_content" >> PBread_gc.txt
+#    rm "${contig}"reads.bam
+#    rm "${contig}"reads.fastq
+#done < fixed_names.txt
+#cp PBread_gc.txt ./../.
+#cd ..
 
 
 #ONT
-mkdir ONTgc_per_contig
-cd ONTgc_per_contig
+#mkdir ONTgc_per_contig
+#cd ONTgc_per_contig
 
 #calculate GC content for reads over contig region
 #get contig names in list
-samtools view -H ./../../samsANDbams/ONTaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
+#samtools view -H ./../../samsANDbams/ONTaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
 
 #fix names (delete LN and ?)
-awk '{print $1}' contig_names.txt > fixed_names.txt
-bedtools bamtobed -i ./../../samsANDbams/ONTaln_sorted.bam > output.bed
+#awk '{print $1}' contig_names.txt > fixed_names.txt
+#bedtools bamtobed -i ./../../samsANDbams/ONTaln_sorted.bam > output.bed
 
 #for each contig in the fixed_names.txt file, make a temporary bed, take the reads in that bed region and input to a fastq, and then calculate GC by countin#g GC and dividing by total bases
-while read -r contig; do
-    grep "${contig}" output.bed > "${contig}"temp_output.bed
-    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/ONTaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
-    rm "${contig}"temp_output.bed
-    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
-    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
-    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
-    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
-    echo -e "$contig\t$gc_content" >> ONTread_gc.txt
-    rm "${contig}"reads.bam
-    rm "${contig}"reads.fastq
-done < fixed_names.txt
-cp ONTread_gc.txt ./../.
-cd ..
+#while read -r contig; do
+#    grep "${contig}" output.bed > "${contig}"temp_output.bed
+#    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/ONTaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
+#    rm "${contig}"temp_output.bed
+#    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
+#    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
+#    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
+#    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
+#    echo -e "$contig\t$gc_content" >> ONTread_gc.txt
+#    rm "${contig}"reads.bam
+#    rm "${contig}"reads.fastq
+#done < fixed_names.txt
+#cp ONTread_gc.txt ./../.
+#cd ..
 
 
 #repeat of RNA
-mkdir RNAgc_per_contig
-cd RNAgc_per_contig
+#mkdir RNAgc_per_contig
+#cd RNAgc_per_contig
 
 
 #get contig names in list
-samtools view -H ./../../samsANDbams/RNAaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
+#samtools view -H ./../../samsANDbams/RNAaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
 
 #fix names (delete LN and ?)
-awk '{print $1}' contig_names.txt > fixed_names.txt
-bedtools bamtobed -i ./../../samsANDbams/RNAaln_sorted.bam > output.bed
+#awk '{print $1}' contig_names.txt > fixed_names.txt
+#bedtools bamtobed -i ./../../samsANDbams/RNAaln_sorted.bam > output.bed
 
 
-while read -r contig; do
-    grep "${contig}" output.bed > "${contig}"temp_output.bed
-    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/RNAaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
-    rm "${contig}"temp_output.bed
-    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
-    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
-    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
-    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
-    echo -e "$contig\t$gc_content" >> RNAread_gc.txt
-    rm "${contig}"reads.bam
-    rm "${contig}"reads.fastq
-done < fixed_names.txt
-cp RNAread_gc.txt ./../.
-cd ..
-cd ..
+#while read -r contig; do
+#    grep "${contig}" output.bed > "${contig}"temp_output.bed
+#    samtools view -L "${contig}"temp_output.bed -h ./../../samsANDbams/RNAaln_sorted.bam | samtools view -b - > "${contig}"reads.bam
+#    rm "${contig}"temp_output.bed
+#    bedtools bamtofastq -i "${contig}"reads.bam -fq "${contig}"reads.fastq
+#    awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | grep -o -i '[GC]' | wc -l > gc_count.txt
+#    total_bases=$(awk 'NR%4 == 2 {print $1}' "${contig}"reads.fastq | tr -d '\n' | wc -c)
+#    gc_content=$(awk '{printf "%.2f", $1 / '$total_bases'}' gc_count.txt)
+#    echo -e "$contig\t$gc_content" >> RNAread_gc.txt
+#    rm "${contig}"reads.bam
+#    rm "${contig}"reads.fastq
+#done < fixed_names.txt
+#cp RNAread_gc.txt ./../.
+#cd ..
+#cd ..
 
 ########FIX_BLAST_OUTPUT########
 
 
-awk '/Query=/{print; flag=1; next} flag && /^>/{print; flag=0} flag && /No hits found/{print; flag=0}' SIDRblast.txt > test1.txt
-awk 'NR%2==1{col1=$0} NR%2==0{print col1, $0}' test1.txt > test2.txt
-awk '{print $2, $5, $6}' test2.txt > test3.txt
-sed -i 's/hits found/No hits found/g' test3.txt
-sed 's/ /\t/' test3.txt > blastIDs.txt
-rm test*
-cp blastIDs.txt ./stats/.
+#awk '/Query=/{print; flag=1; next} flag && /^>/{print; flag=0} flag && /No hits found/{print; flag=0}' out_blastnt.log > test1.txt
+#awk 'NR%2==1{col1=$0} NR%2==0{print col1, $0}' test1.txt > test2.txt
+#awk '{print $2, $5, $6}' test2.txt > test3.txt
+#sed -i 's/hits found/No hits found/g' test3.txt
+#sed 's/ /\t/' test3.txt > blastIDs.txt
+#rm test*
+#cp blastIDs.txt ./stats/.
 
 
 ########MAKE_TABLE########
 
-cd stats
-rm *coverage.txt
+#cd ./stats/
+#rm *coverage.txt
 
 
 ls *.txt > list
