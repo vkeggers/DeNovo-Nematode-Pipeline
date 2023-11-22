@@ -668,11 +668,12 @@ The .html file should now be in your home directory of your local machine.
 	 
 ## Decontamination
 </summary>
- SIDR
+ SIDR: 
+ https://pypi.org/project/SIDR/
  
 **It is still in progress and experimental.**
 
-To decontaminate our genomes we use SIDR, a machine learning program genereated by our lab that takes raw fasta/fastq files, runs blast, creates alignments, and generates various statistics about coverage, gc content, and length. This table is then fed into xgboost to predict contaminants. 
+To decontaminate our genomes we use SIDR, a machine learning program genereated by our lab that takes raw fasta/fastq files, runs blast, creates alignments, and generates various statistics about coverage, gc content, and length. This table is then fed into xgboost to predict contaminants. The link above takes you to the 2018 version in python. The code provided in this project uses linux commands and R; however it is in progress to be coded in a different language to make it faster and more efficient. The Fierst lab is also working on updating the machine learning method used.  
 
 
 </details>
