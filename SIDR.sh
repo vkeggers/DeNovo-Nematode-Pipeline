@@ -85,15 +85,35 @@ cd stats
 #plus and minus strand counts
 #samtools view -F 16 ./../samsANDbams/PBaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > PBplus_strand_counts.txt
 #sed -i 's/ /\t/' PBplus_strand_counts.txt
+#sort -k1 PBplus_strand_counts.txt > PBplus_strand_counts.txt.temp
+#mv PBplus_strand_counts.txt.temp PBplus_strand_counts.txt
+echo -e "contig\tPBplus_strand_counts" > header.txt
+cat PBplus_strand_counts.txt >> header.txt
+mv header.txt PBplus_strand_counts.txt
 
 #samtools view -f 16 ./../samsANDbams/PBaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > PBminus_strand_counts.txt
 #sed -i 's/ /\t/' PBminus_strand_counts.txt
+#sort -k1 PBminus_strand_counts.txt > PBminus_strand_counts.txt.temp
+#mv PBminus_strand_counts.txt.temp PBminus_strand_counts.txt
+echo -e "contig\tPBminus_strand_counts" > header.txt
+cat PBminus_strand_counts.txt >> header.txt
+mv header.txt PBminus_strand_counts.txt
 
 #samtools view -F 16 ./../samsANDbams/ONTaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > ONTplus_strand_counts.txt
 #sed -i 's/ /\t/' ONTplus_strand_counts.txt
+#sort -k1 ONTplus_strand_counts.txt > ONTplus_strand_counts.txt.temp
+#mv ONTplus_strand_counts.txt.temp ONTplus_strand_counts.txt
+echo -e "contig\tONTplus_strand_counts" > header.txt
+cat ONTplus_strand_counts.txt >> header.txt
+mv header.txt ONTplus_strand_counts.txt
 
 #samtools view -f 16 ./../samsANDbams/ONTaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > ONTminus_strand_counts.txt
 #sed -i 's/ /\t/' ONTminus_strand_counts.txt
+#sort -k1 ONTminus_strand_counts.txt > ONTminus_strand_counts.txt.temp
+#mv ONTminus_strand_counts.txt.temp ONTminus_strand_counts.txt
+echo -e "contig\tONTminus_strand_counts" > header.txt
+cat ONTminus_strand_counts.txt >> header.txt
+mv header.txt ONTminus_strand_counts.txt
 
 #various forms of coverage
 #covered_bases[$1]++ is the number of positions (bases) that have coverage greater than zero
@@ -101,71 +121,97 @@ cd stats
 #total_bases[$1]++ is basically the length of the contig by adding to the count even if the base does not have coverage
 
 #pacbio
-samtools depth ./../samsANDbams/PBaln_sorted.bam > PBcoverage.txt
+#samtools depth ./../samsANDbams/PBaln_sorted.bam > PBcoverage.txt
 
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
-        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
+#awk '{
+#    if ($3 > 0) {
+#        covered_bases[$1]++;
+#        sum[$1] += $3;
+#    }
+#    total_bases[$1]++;
+#}
+#END {
+#    for (contig in sum) {
+#        avg_fold = sum[contig] / total_bases[contig];
+#        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
 
-        print contig, covered_bases[contig], avg_fold, coverage_percentage;
-    }
-}' PBcoverage.txt | sort -k1,1 > PBcoverageStats.txt
-sed -i 's/ /\t/g' PBcoverageStats.txt
+
+#        print contig, covered_bases[contig], avg_fold, coverage_percentage;
+#    }
+#}' PBcoverage.txt | sort -k1,1 > PBcoverageStats.txt
+#sed -i 's/ /\t/g' PBcoverageStats.txt
+#sort -k1 PBcoverageStats.txt > PBcoverageStats.txt.temp
+#mv PBcoverageStats.txt.temp PBcoverageStats.txt 
+echo -e "contig\tPB_Covered_bases\tPB_avg_fold\tPB_coverage_percent" > header.txt
+cat PBcoverageStats.txt >> header.txt
+mv header.txt PBcoverageStats.txt
 
 #ONT
-samtools depth ./../samsANDbams/ONTaln_sorted.bam > ONTcoverage.txt
+#samtools depth ./../samsANDbams/ONTaln_sorted.bam > ONTcoverage.txt
 
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
+#awk '{
+#    if ($3 > 0) {
+#        covered_bases[$1]++;
+#        sum[$1] += $3;
+#    }
+#    total_bases[$1]++;
+#}
+#END {
+#    for (contig in sum) {
+#        avg_fold = sum[contig] / total_bases[contig];
 
-        print contig, covered_bases[contig], avg_fold;
-    }
-}' ONTcoverage.txt | sort -k1,1 > ONTcoverageStats.txt
-sed -i 's/ /\t/g' ONTcoverageStats.txt
-
+#        print contig, covered_bases[contig], avg_fold;
+#    }
+#}' ONTcoverage.txt | sort -k1,1 > ONTcoverageStats.txt
+#sed -i 's/ /\t/g' ONTcoverageStats.txt
+#sort -k1 ONTcoverageStats.txt > ONTcoverageStats.txt.temp
+#mv ONTcoverageStats.txt.temp ONTcoverageStats.txt
+echo -e "contig\tONT_Covered_bases\tONT_avg_fold" > header.txt
+cat ONTcoverageStats.txt >> header.txt
+mv header.txt ONTcoverageStats.txt
 
 #RNA
-samtools depth ./../samsANDbams/RNAaln_sorted.bam > RNAcoverage.txt
+#samtools depth ./../samsANDbams/RNAaln_sorted.bam > RNAcoverage.txt
 
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
-
-        print contig, covered_bases[contig], avg_fold;
-    }
-}' RNAcoverage.txt | sort -k1,1 > RNAcoverageStats.txt
-sed -i 's/ /\t/g' RNAcoverageStats.txt
-
+#awk '{
+#    if ($3 > 0) {
+#        covered_bases[$1]++;
+#        sum[$1] += $3;
+#    }
+#    total_bases[$1]++;
+#}
+#END {
+#    for (contig in sum) {
+#        avg_fold = sum[contig] / total_bases[contig];
+#
+#        print contig, covered_bases[contig], avg_fold;
+#    }
+#}' RNAcoverage.txt | sort -k1,1 > RNAcoverageStats.txt
+#sed -i 's/ /\t/g' RNAcoverageStats.txt
+#sort -k1 RNAcoverageStats.txt > RNAcoverageStats.txt.temp
+#mv RNAcoverageStats.txt.temp RNAcoverageStats.txt
+echo -e "contig\tRNA_Covered_bases\tRNA_avg_fold" > header.txt
+cat RNAcoverageStats.txt >> header.txt
+mv header.txt RNAcoverageStats.txt
 
 #bbtools to calculate GC content of contigs, or Ref_GC
 #stats.sh in=${GENOME} gc=Ref_GC.txt gcformat=4
 #sed -i '1d' Ref_GC.txt
+#sort -k1 Ref_GC.txt > Ref_GC.txt.temp
+#mv Ref_GC.txt.temp Ref_GC.txt
+echo -e "contig\tlength\tRef_GC" > header.txt
+cat Ref_GC.txt >> header.txt
+mv header.txt Ref_GC.txt 
 
-paste Ref_GC.txt RNAcoverageStats.txt | awk '{print ($5 / $2) * 100}' > RNA_Covered_percent.txt
-paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Covered_percent.txt
+#paste Ref_GC.txt RNAcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > RNA_Covered_percent.txt
+echo -e "contig\tRNA_Coverage_percent" > header.txt
+cat RNA_Covered_percent.txt >> header.txt
+mv header.txt RNA_Covered_percent.txt 
+
+#paste Ref_GC.txt ONTcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > ONT_Covered_percent.txt
+echo -e "contig\tONT_Coverage_percent" > header.txt
+cat ONT_Covered_percent.txt >> header.txt
+mv header.txt ONT_Covered_percent.txt
 
 #calculate GC content for reads over contig region
 #hifi
@@ -193,9 +239,13 @@ paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Cove
 #    rm "${contig}"reads.bam
 #    rm "${contig}"reads.fastq
 #done < fixed_names.txt
+#sort -k1 PBread_gc.txt > PBread_gc.txt.temp
+#mv PBread_gc.txt.temp PBread_gc.txt
 #cp PBread_gc.txt ./../.
 #cd ..
-
+echo -e "contig\tPBread_gc" > header.txt
+cat PBread_gc.txt >> header.txt
+mv header.txt PBread_gc.txt
 
 #ONT
 #mkdir ONTgc_per_contig
@@ -222,14 +272,17 @@ paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Cove
 #    rm "${contig}"reads.bam
 #    rm "${contig}"reads.fastq
 #done < fixed_names.txt
+#sort -k1 ONTread_gc.txt > ONTread_gc.txt.temp
+#mv ONTread_gc.txt.temp ONTread_gc.txt
 #cp ONTread_gc.txt ./../.
 #cd ..
-
+echo -e "contig\tONTread_gc" > header.txt
+cat ONTread_gc.txt >> header.txt
+mv header.txt ONTread_gc.txt
 
 #repeat of RNA
 #mkdir RNAgc_per_contig
 #cd RNAgc_per_contig
-
 
 #get contig names in list
 #samtools view -H ./../../samsANDbams/RNAaln_sorted.bam | grep '@SQ' | cut -f 2 -d ':' | cut -f 2 -d '@' > contig_names.txt
@@ -252,8 +305,14 @@ paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Cove
 #    rm "${contig}"reads.fastq
 #done < fixed_names.txt
 #cp RNAread_gc.txt ./../.
+#sort -k1 RNAread_gc.txt > RNAread_gc.txt.temp 
+#mv RNAread_gc.txt.temp RNAread_gc.txt
 #cd ..
 #cd ..
+echo -e "contig\tRNAread_gc" > header.txt
+cat RNAread_gc.txt >> header.txt
+mv header.txt RNAread_gc.txt
+
 
 ########FIX_BLAST_OUTPUT########
 
@@ -264,8 +323,12 @@ paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Cove
 #sed -i 's/hits found/No hits found/g' test3.txt
 #sed 's/ /\t/' test3.txt > blastIDs.txt
 #rm test*
+#sort -k1 blastIDs.txt > blastIDs.txt.temp
+#mv blastIDs.txt.temp blastIDs.txt
 #cp blastIDs.txt ./stats/.
-
+echo -e "contig\tOrigin" > header.txt
+cat blastIDs.txt >> header.txt
+mv header.txt blastIDs.txt
 
 ########MAKE_TABLE########
 
@@ -274,14 +337,14 @@ paste Ref_GC.txt ONTcoverageStats.txt | awk '{print ($5 / $2) * 100}' > ONT_Cove
 
 
 ls *.txt > list
-join --check-order --header -t$'\t' Avg_fold.txt blastIDs.txt > newfile
-sed -i '/Avg_fold/Id' list
+join --check-order --header -t$'\t' blastIDs.txt Ref_GC.txt > newfile
+sed -i '/Ref_GC/Id' list
 sed -i '/blastIDs/Id' list
 
-for file in list; do
-    join --check-order --header -t$'\t' newfile $file > newfile.temp
+while read -r file; do
+    join --check-order --header -t$'\t' newfile "${file}" > newfile.temp
     mv newfile.temp newfile
-done
+done < list
 
 rm list
 mv newfile SIDRstats.tsv
@@ -289,14 +352,14 @@ mv newfile SIDRstats.tsv
 ########RUN_SIDR########
 
 #activate R
-R
+R --save
 
 #load libraries
-library(tree)
-library(randomForest)
-library(gbm)
-library(xgboost)
-library(ggplot2)
+#library("tree")
+#library("randomForest")
+#library("gbm")
+#library("xgboost")
+#library("ggplot2")
 
 
 #import data file as variable
