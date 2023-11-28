@@ -668,6 +668,7 @@ The .html file should now be in your home directory of your local machine.
 	 
 ## Decontamination
 </summary>
+
  **SIDR**
  
  https://pypi.org/project/SIDR/
@@ -700,6 +701,8 @@ Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.
 	 
 ## Masking Repeats
 </summary>
+
+**RepeatMasker/Modeler**
 
 https://github.com/Dfam-consortium/RepeatModeler
 
@@ -764,11 +767,7 @@ The output of RepeatMasker is *.masked
 Also, remember that the output of RepeatModeler (custom library) is in RM*/consensi.fa.classified
 Or, if you want a broader library, [species].repeats
 
-
 </details>
-
-
-
 
 
 <details>
@@ -776,6 +775,7 @@ Or, if you want a broader library, [species].repeats
  <summary>
 	 
 ## Gene Annotation
+
 </summary>
 
 
