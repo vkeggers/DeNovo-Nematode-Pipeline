@@ -731,8 +731,40 @@ queryRepeatDatabase.pl -species rhabditida | grep -v "Species:" > Rhabditida.rep
 
 #Combine the files to create a library of de novo and known repeats
 cat RM*/consensi.fa.classified Rhabditida.repeatmasker > [species_name].repeats
+
+#exit the container
+exit
 ```
- 
+
+Mask the repeats from the library you just generated. 
+```
+#Module load RepeatMasker
+module load RepeatMasker-4.1.0
+
+#Mask the genome of known repeats
+RepeatMasker -lib [species_name].repeats -pa 8 -xsmall -nolow [keptcontigs.fasta] 
+```
+-nolow / -l(ow)
+
+With the option -nolow or -l(ow) only interspersed repeats are masked. By default simple tandem repeats and low complexity (polypurine, AT-rich) regions are masked besides the interspersed repeats. For database searches the default setting is recommended, but sometimes, e.g. when using the masked sequence to predict the presence of exons, it may be better to skip the low complexity masking.
+
+
+-xsmall 
+
+Returns repetitive regions in lowercase (soft masking) instead of replacing with N's (hard masking). Non-repeat regions remain in uppercase.
+
+
+-pa
+
+Stands for parallel, for multiprocessing, runs 8 sequences at a time. 
+
+
+The output of RepeatMasker is *.masked
+
+Also, remember that the output of RepeatModeler (custom library) is in RM*/consensi.fa.classified
+Or, if you want a broader library, [species].repeats
+
+
 </details>
 
 
