@@ -676,6 +676,7 @@ The .html file should now be in your home directory of your local machine.
 
 To decontaminate our genomes we use SIDR, a machine learning program genereated by our lab that takes raw fasta/fastq files, runs blast, creates alignments, and generates various statistics about coverage, gc content, and length. This table is then fed into xgboost to predict contaminants. The link above takes you to the 2018 version in python. The code provided in this project uses linux commands and R; however it is in progress to be coded in a different language to make it faster and more efficient. The Fierst lab is also working on updating the machine learning method used.  
 
+The output of SIDR is two fasta files: keptcontigs.fa and contaminant contigs.fa
 
 </details>
 
@@ -685,11 +686,12 @@ To decontaminate our genomes we use SIDR, a machine learning program genereated 
 	 
 ## Quality Check
 </summary>
+
+Using the kept contigs.fa, it is good to repeat the QUAST and BUSCO measures for the assembly to make sure there haven't been crazy changes, or if so, then why.
+
+Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.fa, it is changed to /your/path/to/keptcontigs.fa
+
 </details>
-
-
-
-
 
 
 <details>
@@ -698,6 +700,38 @@ To decontaminate our genomes we use SIDR, a machine learning program genereated 
 	 
 ## Masking Repeats
 </summary>
+
+https://github.com/Dfam-consortium/RepeatModeler
+
+If the assembly is good to go, we can begin preliminary repeat annotation. This first strp uses repeatModeler/Masker to mask repeat regions of the genome and make gene annotation easier. This is just a first pass, which creates a library of repeats found in the genome. 
+
+Install repeatModeler/Masker with TE-tools container: https://github.com/Dfam-consortium/TETools
+RepeatMasker is installed on the HPC, so alternatively you can try module load RepeatMasker-4.1.0
+
+```
+#Get the container
+curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
+chmod +x dfam-tetools.sh
+
+#Activate the container
+./dfam-tetools.sh
+```
+
+
+Run commands one by one in container. If I remember correctly, the BuildDatabase command takes the longest (~12 hours on a 100Mb genome, ~20% repeats)
+```
+#Build the database
+BuildDatabase -name [species_name] [genome.fasta]
+
+#Run RepeatModeler for de novo repeat identification and characterization
+RepeatModeler -pa 8 -database [species_name]
+
+#Use the queryRepeatDatabase.pl script inside RepeatMasker/util to extract Rhabditida repeats
+queryRepeatDatabase.pl -species rhabditida | grep -v "Species:" > Rhabditida.repeatmasker
+
+#Combine the files to create a library of de novo and known repeats
+cat RM*/consensi.fa.classified Rhabditida.repeatmasker > [species_name].repeats
+```
  
 </details>
 
