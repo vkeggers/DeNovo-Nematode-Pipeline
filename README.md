@@ -778,6 +778,8 @@ Or, if you want a broader library, [species].repeats
 
 </summary>
 
+**STAR**
+
 
 **BRAKER3**
 
@@ -785,11 +787,59 @@ https://github.com/Gaius-Augustus/BRAKER
 
 BRAKER3 is incorporating RNA and Protein Data using GeneMark-ETP and AUGUSTUS. It is used for protein predictions and de novo protein annotations, but is heavily reliant on the data you give it. 
 
+BRAKER is one of the hardest programs to install on the HPC as it has so many dependancies. It is probably easier to install on a local machine. It is also conda-able, however I've never been able to get the conda braker env to work.
+
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_braker3.log
+#SBATCH --mail-user=your@email.com
+#SBATCH --mail-type=ALL
+
+export AUGUSTUS_CONFIG_PATH=/path/to/Augustus/config
+export GENEMARK_PATH=/path/to/GeneMark-ETP/bin
+export PROTHINT_PATH=/path/to/GeneMark-ETP/bin/gmes/ProtHint/bin
+export TSEBRA_PATH=/path/to/TSEBRA/bin
+export STRINGTIE_PATH=/path/to/stringtie
+
+/path/to/braker.pl \
+ --workingdir ./[sample]_braker3 \
+ --species [species_name] \
+ --genome /path/to/keptcontigs.masked \
+ --prot_seq /path/to/protein.fa \
+ --bam /path/to/Aligned.out.bam \
+ --softmasking
+```
+
+
 **AGAT**
 
 https://github.com/NBISweden/AGAT
 
 AGAT is used to covert the .gtf output file from BRAKER, to a .gff3 file format. It also calculates some basic statistics such as gene count.
+
+Install with conda
+
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_%braker3_agat.log
+#SBATCH --mail-user=your@email.com
+#SBATCH --mail-type=ALL
+
+#combined fasta and protein
+agat_convert_sp_gxf2gxf.pl -g /path/to/[sample]_braker.gtf -o [sample]_braker3.gff3
+agat_sp_statistics.pl --gff /path/to/[sample]_braker3.gff3 \
+        -f /path/to/keptcontigs.masked \
+        -o [sample]_AGATstats
+
+```
 
 
 **InterProScan**
@@ -797,6 +847,27 @@ AGAT is used to covert the .gtf output file from BRAKER, to a .gff3 file format.
 https://interproscan-docs.readthedocs.io/en/latest/
 
 InterProScan scans the InterPro database to predict protein function and domains.
+
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH -n 8
+#SBATCH --output=out_InterProScan.log
+#SBATCH --mail-user=your@email.com
+#SBATCH --mail-type=ALL
+
+
+module load jdk1.8.0_241
+module load interproscan-5.55
+module load perl-5.34.0-gcc-8.2.0-b5u622f
+
+/home/applications/interproscan/interproscan-5.33-72.0/interproscan.sh -i /path/to/protein.fa -f tsv -dp -goterms -pa
+```
+
+
  
 </details>
 
