@@ -780,6 +780,10 @@ Or, if you want a broader library, [species].repeats
 
 **STAR**
 
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3530905/
+
+Used to align the rna reads to the genome for better prediction of protein coding regions.
+
 ```
 #!/bin/bash
 
@@ -790,6 +794,7 @@ Or, if you want a broader library, [species].repeats
 #SBATCH --mail-user=your@email.com
 #SBATCH --mail-type=ALL
 
+module load star-2.7.9a
 
 # Generate genome index
 STAR \
