@@ -780,6 +780,29 @@ Or, if you want a broader library, [species].repeats
 
 **STAR**
 
+```
+#!/bin/bash
+
+#SBATCH --account iacc_jfierst
+#SBATCH --qos highmem1
+#SBATCH --partition highmem1
+#SBATCH --output=out_star
+#SBATCH --mail-user=your@email.com
+#SBATCH --mail-type=ALL
+
+
+# Generate genome index
+STAR \
+    --runThreadN 12 --runMode genomeGenerate --genomeDir [species]_STAR \
+    --genomeSAindexNbases 12 --genomeFastaFiles /path/to/keptcontigs.masked
+
+# Map the reads
+STAR \
+    --runThreadN 12 --genomeDir [species]_STAR --outSAMtype BAM Unsorted --twopassMode Basic \
+    --readFilesIn /path/to/rna_1.fastq /path/to/rna_2.fastq
+```
+
+The output is an Aligned.out.bam file which will be used in BRAKER, a.k.a the next step.
 
 **BRAKER3**
 
