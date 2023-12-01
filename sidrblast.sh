@@ -15,7 +15,7 @@ module load blast-plus-2.7.1-gcc-8.2.0-fm5yf3k
 GENOME=/home/data/jfierst/veggers/Oscheius/DF5033/DF5033_hifiAssembly/DF5033ONTpb.asm.bp.p_ctg.fa
 NT=/home/data/jfierst/veggers/nt_db/nt
 
-blastx -query ${GENOME} \
+blastn -query ${GENOME} \
     -db ${NT} \
    # -outfmt 6 \
     -culling_limit 5 \
