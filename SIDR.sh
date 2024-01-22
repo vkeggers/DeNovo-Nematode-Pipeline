@@ -8,10 +8,9 @@
 #SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
 
-
-
 ########LOAD_MODULES########
 
+module load miniconda3-23.5.2
 module load samtools-1.15.1-gcc-8.2.0
 module load blast-plus-2.7.1-gcc-8.2.0-fm5yf3k
 module load minimap2-2.24
@@ -19,21 +18,140 @@ module load bwa-0.7.17-gcc-8.2.0-qgdird7
 module load bedtools2-2.27.1-gcc-8.2.0-bxmhnwb
 module load r-4.3.1-gcc-12.1.0
 
-conda activate bbmap   #source activate bbmap, might need to activate before starting the script
+########ACTIVATE_CONDA_ENV########
 
+ENV_NAME="bbmap"
+PACKAGE_NAME="bbmap"
 
-########SET_VARIABLES########
-FORWARD=/home/data/jfierst/veggers/Oscheius/DF5033/RNA/SRR18615345_1.fastq
-REVERSE=/home/data/jfierst/veggers/Oscheius/DF5033/RNA/SRR18615345_2.fastq
-GENOME=/home/data/jfierst/veggers/Oscheius/DF5033/DF5033_hifiAssembly/DF5033ONTpb.asm.bp.p_ctg.fa
-HIFI_READS=/home/data/jfierst/veggers/Oscheius/DF5033/DF5033_hifiAssembly/m84100_230715_013717_s3.bc1048--bc1048.hifi_reads.fastq.gz
-ONT_READS=/home/data/jfierst/veggers/Oscheius/DF5033/verkko/SRR16213283.fastq
-NT=/home/data/jfierst/veggers/nt_db/nt
-GENUS="Oscheius"
+# Check if the environment exists and the package is installed
+if conda env list | grep -q "^$ENV_NAME\s"; then
+    echo "Environment '$ENV_NAME' exists."
+    if conda list -n "$ENV_NAME" | grep -q "^$PACKAGE_NAME\s"; then
+        echo "Package '$PACKAGE_NAME' is installed in '$ENV_NAME'."
+    else
+        echo "Package '$PACKAGE_NAME' is not installed in '$ENV_NAME'. Installing now..."
+        conda install -n "$ENV_NAME" -c bioconda "$PACKAGE_NAME" --yes
+    fi
+else
+    echo "Environment '$ENV_NAME' does not exist. Creating and installing package..."
+    conda create -n "$ENV_NAME" -c bioconda "$PACKAGE_NAME" --yes
+fi
+
+# Activate the environment
+echo "Activating environment '$ENV_NAME'."
+source activate "$ENV_NAME"
+
+#############################
+#############################
+#######ARGUMENT_CENTER#######
+#############################
+#############################
+
+# Initialize variables for arguments
+FORWARD=""
+REVERSE=""
+GENOME=""
+HIFI_READS=""
+ONT_READS=""
+NT=""
+RUN_BLAST=""
+BLAST_OUTPUT=""
+GENUS=""
+
+# Help message with descriptions of all arguments
+print_help() {
+    echo "Usage: $0 [options]"
+    echo "Options:"
+    echo "  --forward/-f       A path to your RNA seq forward reads."
+    echo "  --reverse/-r       A path to your RNA seq reverse reads."
+    echo "  --genome/-g        A path to your genome assembly as a .fa file."
+    echo "  --genus/-x         *REQUIRED* The genus name of your species of interest (Case- and spelling-sensitive; Ex: -g Drosophila)."
+    echo "  --hifi             A path to your PacBio HiFi reads."
+    echo "  --ont              A path to your Oxford Nanopore basecalled reads."
+    echo "  --nt/-n            A path to your NCBI compiled NT database."
+    echo "  --blast/-b         *REQUIRED* Do you need to run a blast search of your assembly? Yes/No [Yes (if not completed)/ No (previously completed)]"
+    echo "  --blastoutput      Path to your blast output file."
+    echo "  --help/-h          Display this help and exit."
+}
+
+# Check if no arguments were provided
+if [ $# -eq 0 ]; then
+    print_help
+    exit 1
+fi
+
+# Loop through arguments and process them
+while [ "$1" != "" ]; do
+    case $1 in
+        -f | --forward )     shift
+                             FORWARD=$1
+                             ;;
+        -r | --reverse )     shift
+                             REVERSE=$1
+                             ;;
+        -g | --genome )      shift
+                             GENOME=$1
+                             ;;
+        -x | --genus )		 shift
+                             GENUS=$1
+                             ;;
+        --hifi )             shift
+                             HIFI_READS=$1
+                             ;;
+        --ont )              shift
+                             ONT_READS=$1
+                             ;;
+        -n | --nt )          shift
+                             NT=$1
+                             ;;
+        -b | --blast )       shift
+                             RUN_BLAST=$1
+                             if [ "$RUN_BLAST" != "Yes" ] && [ "$RUN_BLAST" != "No" ]; then
+                                 echo "Invalid argument for --blast/-b: $RUN_BLAST"
+                                 print_help
+                                 exit 1
+                             fi
+                             ;;
+        --blastoutput )      shift
+                             BLAST_OUTPUT=$1
+                             ;;
+        -h | --help )        print_help
+                             exit
+                             ;;
+        * )                  echo "Invalid argument: $1"
+                             print_help
+                             exit 1
+    esac
+    shift
+done
+
+# Check if --genus/-x was provided
+if [ -z "$GENUS" ]; then
+    echo "Error: --genus/-x argument is required."
+    print_help
+    exit 1
+fi
+
+# Check if --blast/-b was provided
+if [ -z "$RUN_BLAST" ]; then
+    echo "Error: --blast/-b argument is required."
+    print_help
+    exit 1
+fi
+
+# Check for blast and corresponding argument conditions
+if [ "$RUN_BLAST" = "No" ] && [ -z "$NT" ]; then
+    echo "Error: --nt/-n argument must be given if --blast/-b is set to 'No'."
+    exit 1
+elif [ "$RUN_BLAST" = "Yes" ] && [ -z "$BLAST_OUTPUT" ]; then
+    echo "Error: --blastoutput argument must be given if --blast/-b is set to 'Yes'."
+    exit 1
+fi
 
 ########RUN_BLAST########
 
-#sbatch sidrblast.sh
+if [ "$RUN_BLAST" = "No" ]; then
+    sbatch sidrblash.sh --genome $GENOME --nt $NT
 
 
 ########GENERATE_ALIGNMENTS########
@@ -56,7 +174,6 @@ minimap2 -ax map-ont \
 #RNA reads aligned to assembly
 bwa index ${GENOME}
 bwa mem -t 4 ${GENOME} ${FORWARD} ${REVERSE} > RNAaln.sam
-
 
 ########MAKE_BAM_FILES########
 
