@@ -42,16 +42,16 @@ cd                                     |#change directory
 cd ..                                  |#go backwards one directory
 cd -                                   |#go to the previous directory
 cd ~                                   |#go to home directory
-cp <filename> <new_filename>           |#copy/rename a file
-cp -R </path/to/directory> </new/path> |#copy a directory recursively 
-rm <filename>                          |#delete filename
-rm -r <directory>                      |#delete a directory with contents
-rmdir <directory>                      |#delete a directory without contents
-mkdir <directory>                      |#create a directory
-vi <filename>                          |#create a file
-touch <filename>                       |#create a file
+cp filename new_filename               |#copy/rename a file
+cp -R /path/to/directory /new/path     |#copy a directory recursively 
+rm filename                            |#delete filename
+rm -r directory                        |#delete a directory with contents
+rmdir directory                        |#delete a directory without contents
+mkdir directory                        |#create a directory
+vi filename                            |#create a file
+touch filename                         |#create a file
 history                                |#if you want to see all the previous commands you have typed
-sbatch <script.sh>                     |#sumbit a job to the hpc
+sbatch script.sh                       |#sumbit a job to the hpc
 squeue --me                            |#see the status of a file you have sumbitted to the slurm queue
 
 </details>
