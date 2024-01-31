@@ -45,7 +45,10 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 </details>
 
 <details>
-	<summary> ## Check the Raw Data </summary>
+<summary> 
+
+## Check the Raw Data
+</summary>
 	
 </details>
 
