@@ -49,7 +49,21 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 ## Check the Raw Data
 </summary>
-	
+
+<details>
+<summary>fastqc</summary>
+
+What is the smallest read?
+What is the largest read?
+What is the median read length?
+What is the theoretical coverage of the genome (Size of genome/(median read legth * number of reads)) OR (size of genome/file size)
+Are there adapter sequences you may need to trim?
+</details>
+
+<details>
+<summary>k-mer counting</summary>
+</details>
+ 
 </details>
 
 <details>
