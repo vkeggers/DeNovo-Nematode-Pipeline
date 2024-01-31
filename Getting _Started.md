@@ -22,7 +22,7 @@ If you have a windows10 or newer, open powershell in administrator mode:
 wsl --install
 ```
 
-This will take a few moments. It will not work if you have wsl already. It will prompt you for a username and password. It will then create a linux folder. navigate through the file system and find your username. Files you download through scp or sftp will likely end up here by default.  
+This will take a few moments. It will not work if you have wsl already. It will prompt you for a username and password. It will then create a linux folder. Navigate through the file system and find your username. Files you download through scp or sftp will likely end up here by default.  
 
 </details>
 
@@ -31,6 +31,29 @@ This will take a few moments. It will not work if you have wsl already. It will 
 
 ## Useful linux commands 
 </summary>
+
+Command                                |Description
+---------------------------------------|---------------------------------------
+pwd                                    |#print working directory
+echo hello world                       |#print hello world to the screen 
+ls                                     |#list
+ls -lath                               |#list all files in long listing format by date modified and with their file size in human readable format
+cd                                     |#change directory
+cd ..                                  |#go backwards one directory
+cd -                                   |#go to the previous directory
+cd ~                                   |#go to home directory
+cp <filename> <new_filename>           |#copy/rename a file
+cp -R </path/to/directory> </new/path> |#copy a directory recursively 
+rm <filename>                          |#delete filename
+rm -r <directory>                      |#delete a directory with contents
+rmdir <directory>                      |#delete a directory without contents
+mkdir <directory>                      |#create a directory
+vi <filename>                          |#create a file
+touch <filename>                       |#create a file
+history                                |#if you want to see all the previous commands you have typed
+sbatch <script.sh>                     |#sumbit a job to the hpc
+squeue --me                            |#see the status of a file you have sumbitted to the slurm queue
+
 </details>
 
 <details>
