@@ -22,7 +22,11 @@ If you have a windows10 or newer, open powershell in administrator mode:
 wsl --install
 ```
 
-This will take a few moments. It will not work if you have wsl already. It will prompt you for a username and password. It will then create a linux folder. Navigate through the file system and find your username. Files you download through scp or sftp will likely end up here by default.  
+This will take a few moments. It will not work if you have wsl already. It will prompt you for a username and password. Restart your computer once it is done installing. You will know that it is done when you see the username to set pop up.
+
+Open the powershell, look for your username, and try linux commands now. Hopefully, it worked.
+
+Also, this process will create a linux folder. Explore the file system and find your username in this linux folder. Files you download through scp or sftp will likely end up here by default.  
 
 </details>
 
