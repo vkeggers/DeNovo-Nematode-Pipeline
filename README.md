@@ -7,4 +7,4 @@ Press on arrows to expand contents.
 
 For an introduction to the hpc and a linux environment: https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/Getting%20_Started.md
 
-For the full pipeline: 
+For the full pipeline: https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/DeNovo-Nematode-Pipeline.md 
