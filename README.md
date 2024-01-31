@@ -5,4 +5,6 @@ Everything can be done as listed using the FIU HPC.
 Press on arrows to expand contents.
 
 
-For an introduction to the hpc and a linux environment: 
+For an introduction to the hpc and a linux environment: https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/Getting%20_Started.md
+
+For the full pipeline: 
