@@ -61,7 +61,8 @@ What is the median read length?
 
 What is the theoretical coverage of the genome (Size of genome/(median read legth * number of reads)) OR (size of genome/file size)
 
-Are there adapter sequences you may need to trim?
+Are there adapter sequences you may need to trim? If there are you should use a software like Trimmomatic or Trimgalore to trim the adapter sequences off and run fastqc again. Trimgalore is a module on the HPC but Trimmomatic will have to be installed by the user.
+
 </details>
 
 <details>
@@ -75,6 +76,8 @@ Are there adapter sequences you may need to trim?
 	
 ## Assembly
 </summary>
+
+It is a good idea to try multiple assembly methods and compare to choose the 'best' one. Best typically means most complete and contiguous. You could try with different softwares, different input data, and different amounts of input data. You can then use that 'best' one for annotation. 
 
 We have tried assembly with:
 
