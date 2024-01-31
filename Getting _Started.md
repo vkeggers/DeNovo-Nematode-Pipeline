@@ -64,5 +64,7 @@ squeue --me                            |#see the status of a file you have sumbi
 <summary>
 
 ## Links for Practice
-</summary
+</summary>
+https://sandbox.bio/tutorials/terminal-basics
+
 </details>
