@@ -521,11 +521,11 @@ Hit [i] for insertion mode and copy/paste the following:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
 #SBATCH --output=out_%pilon.log
-#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
 module load pilon-1.22-gcc-8.2.0-33xdiwt
@@ -611,9 +611,10 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 ## Quality Check
 </summary>
 
-We use QUAST and BUSCO to check the quality of our genome assemblies. There are two ways of doing this: module load from the hpc, or creating a conda environment. 
+Assembly quality has various measures. Things like N50, contig number, assembly size, k-mer counting, and gene presence/absence can all be indications of how good an assembly may be. It is a good idea to try multiple assembly methods and use these metrics to compare them. The "best" assembly is usually the most complete and contiguous. QUAST is particularly nice for comparing multiple assemblies at once.
 
-**BUSCO**
+<details>
+<summary>**BUSCO**</summary>
 
 We need to download the nematode dataset so that we can run busco in offline mode. 
 
@@ -627,15 +628,15 @@ type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
 #SBATCH --output=out_%busco.log
-#SBATCH --mail-user=vegge003@fiu.edu  #use your email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
 
-module load quast-5.2.0 	#might need to load before running script
+module load busco/5.4.7 	#might need to load before running script
 
 export AUGUSTUS_CONFIG_PATH="/your/path/to/Augustus"
 
@@ -650,17 +651,19 @@ chmod +777 *  #this is a easy but unsafe way to make sure all directories within
 ```
 Edit the script to include your path to Augustus and run the script. BUSCO may take multiple hours to run but should not take longer than a day. Your output will be a short_summary*.txt file.
 
-**QUAST**
+</details>
 
+<details>
+	<summary>**QUAST**</summary>
 
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
 #SBATCH --output=out_%quast.log
-#SBATCH --mail-user=vegge003@fiu.edu    #use your own email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
 module load quast-5.2.0  #may need to load before running script
@@ -668,7 +671,22 @@ module load quast-5.2.0  #may need to load before running script
 quast.py -t 4 --eukaryote --plots-format pdf /your/path/to/01_rundir/genome.nextpolish.fasta -o ./PB127_quast/
 ```
 
-QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. 
+QUAST only takes a minute or two and the output is in the directory PB127_quast. The file report.txt gives you basic genome assembly stats like GC content, N50, # contigs, etc. If you have multiple assemblies your script might look like:
+
+```
+#!/bin/bash
+
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
+#SBATCH --output=out_%quast.log
+#SBATCH --mail-user=username@email.com   #use your own email
+#SBATCH --mail-type=ALL
+
+module load quast-5.2.0  #may need to load before running script
+
+quast.py -t 4 --eukaryote --plots-format pdf /your/path/to/assembly1.fasta /your/path/to/assembly2.fasta /your/path/to/assembly3.fasta -o ./species_quast/
+```
 
 The html files are files that display the information in a graphical way using icarus viewer. To view these files, you need to download them to your local machine and then click to open them.
 
@@ -692,7 +710,7 @@ exit
 ```
 
 The .html file should now be in your home directory of your local machine.
-
+</details>
 </details>
 
 <details>
