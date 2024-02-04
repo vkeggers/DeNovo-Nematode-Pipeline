@@ -450,7 +450,7 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 ## Assembly Polishing
 </summary>
 
-Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. 
+Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. This applies less with HiFi data since it reached a Q20 (99%) quality score. I'm not sure where the community stands on correcting HiFi reads with Illumina. 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
