@@ -16,6 +16,8 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 
 </details>
 
+
+
 <details>
 <summary>
 	
@@ -28,7 +30,6 @@ module load sratoolkit-3.0.0
 ```
 
 Go to NCBI SRA and search _Oscheius_. use the filters at the side to narrow it down to genome and nanopore reads. Find the sra ID for _Oscheius_ sp.G, the number is **SRR16242712**
-
 ```
 fasterq-dump SRR16242712
 #this will take a while and give you no feedback so just believe it will work.
@@ -37,13 +38,15 @@ fasterq-dump SRR16242712
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
 
 **Illumina:**
-
 ```
 fasterq-dump SRR16242711
 ```
+
 If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
 
 </details>
+
+
 
 <details>
 <summary> 
@@ -62,15 +65,15 @@ What is the median read length?
 
 What is the theoretical coverage of the genome (Size of genome/(median read legth * number of reads)) OR (size of genome/file size)
 
-Are there adapter sequences you may need to trim? If there are you should use a software like Trimmomatic or Trimgalore to trim the adapter sequences off and run fastqc again. Trimgalore is a module on the HPC but Trimmomatic will have to be installed by the user.
+Are there adapter sequences you may need to trim? If there are you should use a software like [Trimmomatic](http://www.usadellab.org/cms/index.php?page=trimmomatic) or [Trimgalore](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md) to trim the adapter sequences off and run fastqc again. Trimgalore is a module on the HPC but Trimmomatic will have to be installed by the user.
 
 </details>
 
-<details>
-<summary>k-mer counting</summary>
+
+
 </details>
- 
-</details>
+
+
 
 <details>
 <summary>
