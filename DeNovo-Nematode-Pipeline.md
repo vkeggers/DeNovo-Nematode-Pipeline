@@ -26,7 +26,8 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 
 **If you have your own data, skip this part!**
 
-**Nanopore:**
+<details>
+<summary>Nanopore</summary>
 ```
 module load sratoolkit-3.0.0
 ```
@@ -38,13 +39,20 @@ fasterq-dump SRR16242712
 ```
 
 If successful you should have a file named SRR16242712.fastq with 18G of data. Type ls -lh to see this.
+</details>
 
-**Illumina:**
+
+
+<details>
+<summary>Illumina</summary>
 ```
 fasterq-dump SRR16242711
 ```
 
 If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
+</details>
+
+
 
 </details>
 
