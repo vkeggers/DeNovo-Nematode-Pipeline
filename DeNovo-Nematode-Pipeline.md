@@ -615,7 +615,6 @@ Assembly quality has various measures. Things like N50, contig number, assembly 
 
 <details>
 <summary>
-	
 **BUSCO**
 </summary>
 
@@ -659,9 +658,7 @@ Edit the script to include your path to Augustus and run the script. BUSCO may t
 
 
 <details>
-<summary>
-		
-**QUAST**	
+<summary>**QUAST**	
 </summary>
 
 ```
