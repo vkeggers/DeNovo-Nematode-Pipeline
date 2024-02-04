@@ -1,6 +1,6 @@
 # DeNovo-Nematode-Pipeline
 
-This github repository is for the de novo assembly, gene annotation, and repeat annotation of nematodes. It is still a work in progress as I myself am still learning as a bioinformatition and bioinformatics softwares are continually updating and changing. This pipeline is in reference to and building off of https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md
+This github repository is for the de novo assembly, gene annotation, and repeat annotation of nematodes. It is still a work in progress as I myself am still learning as a bioinformatition and bioinformatics softwares are continually updating and changing. This pipeline is in reference to and building off of [CRE@UA](https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md)
 
 Everything can be done as listed using the FIU HPC. 
 
