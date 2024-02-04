@@ -741,6 +741,7 @@ The .html file should now be in your home directory of your local machine.
 
 <details>
 <summary>Merqury</summary>
+	
 [Merqury](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02134-9) is a k-mer counting tool with a variety of options. It allows you to see which k-mers appear only in the reads, which occur in the assembly and how many times they occur, potential ploidy of the organsim, haplotype phasing, etc.
 
 Merqury is not on the HPC, but it is available through a conda environment. To download:
