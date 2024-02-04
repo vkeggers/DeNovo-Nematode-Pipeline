@@ -736,6 +736,51 @@ exit
 
 The .html file should now be in your home directory of your local machine.
 </details>
+
+
+
+<details>
+<summary>Merqury</summary>
+[Merqury](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02134-9) is a k-mer counting tool with a variety of options. It allows you to see which k-mers appear only in the reads, which occur in the assembly and how many times they occur, potential ploidy of the organsim, haplotype phasing, etc.
+
+Merqury is not on the HPC, but it is available through a conda environment. To download:
+```
+module load mamba/23.1.0-4
+conda create -n merqury
+source activate merqury
+conda install -c conda-forge -c bioconda merqury
+```
+
+To test if the installation works:
+```
+Rscript $MERQURY/plot/plot_spectra_cn.R --help
+```
+If the help/options dialogue opens, it worked.
+
+```
+#many files will be generated, so lets make a seperate directory to work in so that things stay organized:
+mkdir species_merqury
+cd species_merqury
+meryl k=31 count assembly.fasta output DF5033.meryl
+merqury.sh DF5033.meryl/ assembly.fasta DF5033_merqury
+```
+
+Similar to QUAST, you will need to exit ssh and enter sftp to download the .png files to examine:
+```
+pwd
+exit
+sftp username@hpclogin01.fiu.edu
+cd <copy and paste the output of pwd above>
+get *.png
+exit
+```
+
+
+
+</details>
+
+
+
 </details>
 
 <details>
