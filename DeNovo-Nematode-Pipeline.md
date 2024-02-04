@@ -614,9 +614,7 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 Assembly quality has various measures. Things like N50, contig number, assembly size, k-mer counting, and gene presence/absence can all be indications of how good an assembly may be. It is a good idea to try multiple assembly methods and use these metrics to compare them. The "best" assembly is usually the most complete and contiguous. QUAST is particularly nice for comparing multiple assemblies at once.
 
 <details>
-<summary>
-**BUSCO**
-</summary>
+<summary>BUSCO</summary>
 
 We need to download the nematode dataset so that we can run busco in offline mode. 
 
@@ -658,8 +656,7 @@ Edit the script to include your path to Augustus and run the script. BUSCO may t
 
 
 <details>
-<summary>**QUAST**	
-</summary>
+<summary>QUAST</summary>
 
 ```
 #!/bin/bash
