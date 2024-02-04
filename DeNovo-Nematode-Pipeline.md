@@ -24,6 +24,8 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 ## Data may be obtained through NCBI SRA
 </summary>
 
+**If you have your own data, skip this part!**
+
 **Nanopore:**
 ```
 module load sratoolkit-3.0.0
