@@ -69,17 +69,13 @@ exit
 ```
 You will then need to navigate to your home directory on your computer and open the file in a browser.
 
-Some questions to pay attention to:
+**Some questions to pay attention to:**
 
-What is the smallest read?
-
-What is the largest read?
-
-What is the median read length?
-
-What is the theoretical coverage of the genome (Size of genome/(median read legth * number of reads)) OR (size of genome/file size)
-
-Are there adapter sequences you may need to trim? If there are you should use a software like [Trimmomatic](http://www.usadellab.org/cms/index.php?page=trimmomatic) or [Trimgalore](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md) to trim the adapter sequences off and run fastqc again. Trimgalore is a module on the HPC but Trimmomatic will have to be installed by the user.
+1. What is the smallest read?
+2. What is the largest read?
+3. What is the median read length?
+4. What is the theoretical coverage of the genome (Size of genome/(median read legth * number of reads)) OR (size of genome/file size)
+5. Are there adapter sequences you may need to trim? If there are you should use a software like [Trimmomatic](http://www.usadellab.org/cms/index.php?page=trimmomatic) or [Trimgalore](https://github.com/FelixKrueger/TrimGalore/blob/master/Docs/Trim_Galore_User_Guide.md) to trim the adapter sequences off and run fastqc again. Trimgalore is a module on the HPC but Trimmomatic will have to be installed by the user.
 
 </details>
 
