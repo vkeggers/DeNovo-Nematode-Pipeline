@@ -4,6 +4,6 @@ This github repository is for the de novo assembly, gene annotation, and repeat 
 
 Everything can be done as listed using the FIU HPC. 
 
-1) For an introduction to the hpc and a linux environment: https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/Getting%20_Started.md
+1) For an introduction to the hpc and a linux environment: [Getting Started] (https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/Getting%20_Started.md)
 
-2) Pipeline: https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/DeNovo-Nematode-Pipeline.md 
+2) Pipeline: [DeNovo Nematode Pipeline] (https://github.com/vkeggers/DeNovo-Nematode-Pipeline/blob/main/DeNovo-Nematode-Pipeline.md) 
