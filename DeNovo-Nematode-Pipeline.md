@@ -54,8 +54,22 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 ## Check the Raw Data
 </summary>
 
-<details>
-<summary>fastqc</summary>
+[fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a program to assess the quality of raw reads and give some basic stats. 
+
+```
+module load fastqc-0.11.7-gcc-8.2.0-gia624n
+fastqc /path/to/reads.fastq
+```
+The output will be a .html report. To download this from the hpc, exit ssh and log in via sftp:
+```
+exit
+sftp username@hpclogin01.fiu.edu
+get *.html
+exit
+```
+You will then need to navigate to your home directory on your computer and open the file in a browser.
+
+Some questions to pay attention to:
 
 What is the smallest read?
 
