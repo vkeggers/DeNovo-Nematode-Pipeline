@@ -654,7 +654,9 @@ Edit the script to include your path to Augustus and run the script. BUSCO may t
 </details>
 
 <details>
-	<summary>**QUAST**</summary>
+	<summary>
+		**QUAST**
+	</summary>
 
 ```
 #!/bin/bash
