@@ -105,13 +105,13 @@ It is a good idea to try multiple assembly methods and compare to choose the 'be
 
 We have tried assembly with:
 
-* flye
+* [flye](https://github.com/fenderglass/Flye) with [canu correct](https://canu.readthedocs.io/en/latest/quick-start.html#quickstart)
 
-* nextdenovo
+* [nextdenovo](https://github.com/Nextomics/NextDenovo)
 
-* verkko
+* [verkko](https://github.com/marbl/verkko)
 
-* hifiasm
+* [hifiasm](https://hifiasm.readthedocs.io/en/latest/faq.html)
 
 
 Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
@@ -121,8 +121,6 @@ Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and
 
 <details>
 <summary>nextDenovo</summary>
-
-https://github.com/Nextomics/NextDenovo
 
 Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous.
 ```
@@ -175,11 +173,11 @@ Press [i] for insert mode and copy the below script
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH --output=out_%assemble.log
-#SBATCH --mail-user=vegge003@fiu.edu 	#use your own email instead
+#SBATCH --mail-user=username@email.com 	#use your own email instead
 #SBATCH --mail-type=ALL
 
 module load nextDenovo-2.5.0
@@ -212,10 +210,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 </details>
 
 <details>
-	<summary>Flye</summary>
-	
-
-https://canu.readthedocs.io/en/latest/quick-start.html#quickstart
+<summary>Flye</summary>
 
 The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, and we don't use these programs enough to request their download. Thus, I've just created conda environments for these. You can try using the anaconda module on HPC (module load anaconda2), but I downloaded my own anaconda a long time ago. You can get the linux version of anaconda here: https://www.anaconda.com/download
 Miniconda or Mamba probably work too, I just haven't tried.
@@ -223,9 +218,9 @@ Miniconda or Mamba probably work too, I just haven't tried.
 
 Get Canu
 ```
+module load mamba/23.1.0-4
 conda create -n canu
-conda activate canu
-	#if conda activate doesn't work, try source activate
+source activate canu
 conda install -c bioconda canu
 ```
 
@@ -238,14 +233,14 @@ Hit [i] for insertion mode and copy/paste the following:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH --output=out_%canu_correct.log
-#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
-#conda activate canu
+source activate canu
 
 canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./SRR16242712.fastq
 ```
@@ -276,13 +271,11 @@ cat *.correctedReads.fasta | sed 's/ /_/g' > correctedReads2.fasta
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-https://github.com/fenderglass/Flye
-
 Get Flye
 ```
+module load mamba/23.1.0-4
 conda create -n flye
-conda activate flye
-	#if conda activate doesn't work, try source activate
+source activate flye
 conda install -c bioconda flye
 ```
 
@@ -295,14 +288,14 @@ Hit [i] for insertion mode and copy/paste the following:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos node
+#SBATCH --partition node
 #SBATCH --output=out_%assembly.log
-#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
-#conda activate flye    
+source activate flye    
 
 flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta -o flye_assembly -t 8 --genome-size 120M
 ```
@@ -324,23 +317,22 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 
 </details>
 
+
+
 Before starting Verkko or hifiasm, you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
 ```
 awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; if (length(seq) >= MIN_SIZE) print "@"$0, seq, sep, qual}' MIN_SIZE=50000 ontReads.fastq > filteredONT.fastq
 ```
 
 <details>
-	<summary>Verkko</summary>
+<summary>Verkko</summary>
 
-https://github.com/marbl/verkko
-
-Verkko does not do well with little coverage.
+**Verkko does not do well with little coverage.**
 
 Install Verkko with Conda:
 ```
 conda create -n verkko -c conda-forge -c bioconda -c defaults verkko
-conda activate verkko
-	#if conda activate doesn't work, try source activate
+source activate verkko
 ```
 
 Create the script:
@@ -352,9 +344,9 @@ Press[i] for instertion and copy/paste the following:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 # Number of nodes
 #SBATCH -N 1
 
@@ -362,10 +354,10 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH -n 16
 
 #SBATCH --output=out_verkko.log
-#SBATCH --mail-user=vegge003@fiu.edu   #use your own email
+#SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
-#conda activate verkko 
+source activate verkko 
 
 export VERKKO=/your/path/to/verkko/bin
 
@@ -391,12 +383,10 @@ This takes about 2 hours to complete on a worm genome (~100Mb)
  
 </details>
 
+
+
 <details>
-	<summary>Hifiasm</summary>
-
-https://github.com/chhylp123/hifiasm
-
-https://hifiasm.readthedocs.io/en/latest/faq.html
+<summary>Hifiasm</summary>
 
 Install Hifiasm with git or conda:
 
@@ -409,9 +399,9 @@ make
 
 Conda
 ```
+module load mamba/23.1.0-4
 conda create -n hifiasm
-conda activate hifiasm
-	#if conda activate doesn't work, try source activate
+source activate hifiasm
 conda install -c bioconda hifiasm
 ```
 
@@ -424,13 +414,14 @@ Press[i] for instertion and copy/paste the following:
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH --output=out_hifi.log
-#SBATCH --mail-user=vegge003@fiu.edu  #insert your own email
+#SBATCH --mail-user=username@email.com  #insert your own email
 #SBATCH --mail-type=ALL
 
+source activate hifiasm
 
 #pacbio reads only
 hifiasm -o sample.asm -t 32 /path/to/hifi_reads.fastq
@@ -440,8 +431,7 @@ hifiasm -o sample.asm -t 32 /path/to/hifi_reads.fastq
 hifiasm -o sample.asm -t 32 --ul /path/to/filteredONT.fastq /path/to/hifi_reads.fastq
 
 #if you installed with git then you need to include the full path to hifiasm
-#make sure to comment out the option you do not want
-#if you have it installed as a conda environment, make sure to load the environment before running the script
+#make sure to comment out the option you do not want, remember comment out means to put a # at the beginning of the line
 ```
 
 Save and exit by pressing [esc], typing ":wq" and then [enter]
@@ -464,7 +454,10 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 </details>
 
+
+
 </details>
+
 
 
 <details>
