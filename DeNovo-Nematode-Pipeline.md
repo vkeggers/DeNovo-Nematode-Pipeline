@@ -386,16 +386,7 @@ This takes about 2 hours to complete on a worm genome (~100Mb)
 <details>
 <summary>Hifiasm</summary>
 
-Install Hifiasm with git or conda:
-
-Git
-```
-git clone https://github.com/chhylp123/hifiasm
-cd hifiasm
-make
-```
-
-Conda
+Install Hifiasm with conda:
 ```
 module load mamba/23.1.0-4
 conda create -n hifiasm
