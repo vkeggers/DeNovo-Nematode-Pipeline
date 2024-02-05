@@ -742,7 +742,7 @@ The .html file should now be in your home directory of your local machine.
 <details>
 <summary>Merqury</summary>
 	
-[Merqury](https://genomebiology.biomedcentral.com/articles/10.1186/s13059-020-02134-9) is a k-mer counting tool with a variety of options. It allows you to see which k-mers appear only in the reads, which occur in the assembly and how many times they occur, potential ploidy of the organsim, haplotype phasing, etc.
+[Merqury](https://github.com/marbl/merqury) is a k-mer counting tool with a variety of options. It allows you to see which k-mers appear only in the reads, which occur in the assembly and how many times they occur, potential ploidy of the organsim, haplotype phasing, etc.
 
 Merqury is not on the HPC, but it is available through a conda environment. To download:
 ```
@@ -759,10 +759,23 @@ Rscript $MERQURY/plot/plot_spectra_cn.R --help
 If the help/options dialogue opens, it worked.
 
 ```
+#!/bin/bash
+
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
+#SBATCH --output=out_%mercury.log
+#SBATCH --mail-user=username@email.com   #use your own email
+#SBATCH --mail-type=ALL
+
 #many files will be generated, so lets make a seperate directory to work in so that things stay organized:
 mkdir species_merqury
 cd species_merqury
-meryl k=31 count assembly.fasta output DF5033.meryl
+
+#count k-mers in read sets
+meryl k=31 count reads_1.fastq reads_2.fastq output DF5033.meryl
+
+#compare the read database with the assembly and generate graphs
 merqury.sh DF5033.meryl/ assembly.fasta DF5033_merqury
 ```
 
