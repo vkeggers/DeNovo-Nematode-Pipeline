@@ -639,7 +639,7 @@ Assembly quality has various measures. Things like N50, contig number, assembly 
 <details>
 <summary>BUSCO</summary>
 
-We need to download the nematode dataset so that we can run busco in offline mode. 
+[BUSCO](https://busco.ezlab.org/) searches for "near-universal" single-copy orthologs from the taxon given. If we are assembling a nematode genome, we use the database nematoda:
 
 ```
 wget --no-check-certificate https://busco-data.ezlab.org/v5/data/lineages/nematoda_odb10.2020-08-05.tar.gz
@@ -680,6 +680,8 @@ Edit the script to include your path to Augustus and run the script. BUSCO may t
 
 <details>
 <summary>QUAST</summary>
+
+[QUAST](https://github.com/ablab/quast) calculates assembly metrics like N50, contig #, and assembly size. If given a reference, it can do more, like tell you about misassemblies, however, if the assembly is _de novo_ then you do not have a reference.
 
 ```
 #!/bin/bash
