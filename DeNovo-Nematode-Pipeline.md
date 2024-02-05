@@ -212,9 +212,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 <details>
 <summary>Flye</summary>
 
-The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, and we don't use these programs enough to request their download. Thus, I've just created conda environments for these. You can try using the anaconda module on HPC (module load anaconda2), but I downloaded my own anaconda a long time ago. You can get the linux version of anaconda here: https://www.anaconda.com/download
-Miniconda or Mamba probably work too, I just haven't tried.
-
+The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, so let's just conda install them:
 
 Get Canu
 ```
