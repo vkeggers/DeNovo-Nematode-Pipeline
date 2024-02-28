@@ -1,8 +1,5 @@
 <details>
-<summary>
-
-## Getting linux terminal on Windows
-</summary>
+<summary>Getting linux terminal on Windows</summary>
 
 Check if you can use liux commands without installing anything:
 
@@ -31,10 +28,7 @@ Also, this process will create a linux folder. Explore the file system and find 
 </details>
 
 <details>
-<summary>
-
-## Useful linux commands 
-</summary>
+<summary>Useful linux commands</summary>
 
 Command                                |Description
 ---------------------------------------|---------------------------------------
@@ -61,10 +55,8 @@ squeue --me                            |#see the status of a file you have sumbi
 </details>
 
 <details>
-<summary>
+<summary>Links for Practice</summary>
 
-## Links for Practice
-</summary>
 https://sandbox.bio/tutorials/terminal-basics
 
 </details>
