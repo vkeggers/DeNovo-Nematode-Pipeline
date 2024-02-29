@@ -467,55 +467,7 @@ rm list
 mv newfile SIDRstats.tsv
 
 ########RUN_SIDR########
-
-#activate R
-R --save
-
-#load libraries
-library("tree")
-library("randomForest")
-library("gbm")
-library("xgboost")
-library("ggplot2")
-
-
-#import data file as variable
-stats <-read.table("SIDRstats.tsv", sep ='\t', header=TRUE)
-attach(stats)
-
-#take out contigs without blast hit for machine learning training
-stats1 <- stats[Origin!="No hits found",1:ncol(stats)] #1:end of columns
-attach(stats1)
-
-#training
-orig <- as.numeric(grepl("$GENUS", Origin))
-Train = sample(1:nrow(stats1),0.33*nrow(stats1))
-stats1.test <- stats1[-Train,2:13]
-stats1.train <- stats1[Train,2:13]
-stats.print <- stats[c(2:13)]
-orig.test <- orig[-Train]
-orig.train <- orig[Train]
-
-#xgboost machine learning 
-set.seed(3)
-tree.boost <- gbm(orig.train~.,x,distribution="gaussian",n.trees=5000,interaction.depth=2) # gbm boosted tree
-summary(tree.boost)
-tree.pred <- predict(tree.boost,newdata=stats1.test,n.trees=5000)
-prediction <- as.numeric(tree.pred > 1.5)
-err <- mean(prediction!= orig.test)
-print(paste("Boosting test-error=",err))
-
-#create variables
-SIDRpredictions <- cbind(stats,tree.print)
-keptContigs <- SIDRpredictions[SIDRpredictions$tree.print>.5,]
-contaminantContigs <- SIDRpredictions[SIDRpredictions$tree.print<.5,]
-
-#write files
-write.csv(SIDRpredictions,files = "SIDRpredictions.csv")
-write.csv(keptContigs,file = "keptContigs.csv")
-write.csv(contaminantContigs,file = "contaminantContigs.csv")
-quit()
-
+python xgboost.py
 
 #make a new directory
 mkdir test
