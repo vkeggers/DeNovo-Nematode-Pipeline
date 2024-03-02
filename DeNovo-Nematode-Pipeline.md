@@ -7,10 +7,7 @@ Press on arrows to expand contents.
 
 
 <details>
-<summary>
-	
-## Upload raw data to NCBI SRA
-</summary>
+<summary>Upload raw data to NCBI SRA</summary>
 
 It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so that it is stored off your system and you can come back and download it if needed. You may also place an embargo on it so that the data will not be public until your paper is published. This is also a good idea because it may take a month to process and you don't want to be worried about this while also trying to publish (most journals require the raw data to be available during the time of review).
 
@@ -19,10 +16,7 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 
 
 <details>
-<summary>
-	
-## Data may be obtained through NCBI SRA
-</summary>
+<summary>Data may be obtained through NCBI SRA</summary>
 
 **If you have your own data, skip this part!**
 
@@ -46,7 +40,7 @@ If successful you should have a file named SRR16242712.fastq with 18G of data. T
 <details>
 <summary>Illumina</summary>
 ```
-fasterq-dump SRR16242711
+fastq-dump --split-3 SRR16242711
 ```
 
 If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2.fastq both with 5.4G of data. Type ls -lh to see this.
@@ -59,10 +53,7 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 
 <details>
-<summary> 
-
-## Check the Raw Data
-</summary>
+<summary> Check the Raw Data</summary>
 
 [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a program to assess the quality of raw reads and give some basic stats. 
 
@@ -96,10 +87,7 @@ You will then need to navigate to your home directory on your computer and open 
 
 
 <details>
-<summary>
-	
-## Assembly
-</summary>
+<summary>Assembly</summary>
 
 It is a good idea to try multiple assembly methods and compare to choose the 'best' one. Best typically means most complete and contiguous. You could try with different softwares, different input data, and different amounts of input data. You can then use that 'best' one for annotation. 
 
@@ -450,10 +438,7 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 
 <details>
-<summary>
-	
-## Assembly Polishing
-</summary>
+<summary>Assembly Polishing</summary>
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. This applies less with HiFi data since it reached a Q20 (99%) quality score. I'm not sure where the community stands on correcting HiFi reads with Illumina. 
 
@@ -611,10 +596,7 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 
 <details>
 
-<summary>
-	
-## Quality Check
-</summary>
+<summary>Quality Check</summary>
 
 Assembly quality has various measures. Things like N50, contig number, assembly size, k-mer counting, and gene presence/absence can all be indications of how good an assembly may be. It is a good idea to try multiple assembly methods and use these metrics to compare them. The "best" assembly is usually the most complete and contiguous. QUAST is particularly nice for comparing multiple assemblies at once.
 
@@ -783,10 +765,7 @@ exit
 
 <details>
 
- <summary>
-	 
-## Decontamination
-</summary>
+<summary>Decontamination</summary>
 
  **SIDR**
  
@@ -796,16 +775,13 @@ exit
 
 To decontaminate our genomes we use SIDR, a machine learning program genereated by our lab that takes raw fasta/fastq files, runs blast, creates alignments, and generates various statistics about coverage, gc content, and length. This table is then fed into xgboost to predict contaminants. The link above takes you to the 2018 version in python. The code provided in this project uses linux commands and R; however it is in progress to be coded in a different language to make it faster and more efficient. The Fierst lab is also working on updating the machine learning method used.  
 
-The output of SIDR is two fasta files: keptcontigs.fa and contaminant contigs.fa
+The output of SIDR is two fasta files: keptcontigs.fa and contaminantcontigs.fa
 
 </details>
 
 <details>
 
- <summary>
-	 
-## Quality Check
-</summary>
+<summary>Quality Check</summary>
 
 Using the kept contigs.fa, it is good to repeat the QUAST and BUSCO measures for the assembly to make sure there haven't been crazy changes, or if so, then why.
 
@@ -816,10 +792,7 @@ Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.
 
 <details>
 
- <summary>
-	 
-## Masking Repeats
-</summary>
+<summary>Masking Repeats</summary>
 
 **RepeatMasker/Modeler**
 
@@ -891,11 +864,7 @@ Or, if you want a broader library, [species].repeats
 
 <details>
 
- <summary>
-	 
-## Gene Annotation
-
-</summary>
+<summary>Gene Annotation</summary>
 
 **STAR**
 
@@ -932,33 +901,52 @@ The output is an Aligned.out.bam file which will be used in BRAKER, a.k.a the ne
 
 https://github.com/Gaius-Augustus/BRAKER
 
-BRAKER3 is incorporating RNA and Protein Data using GeneMark-ETP and AUGUSTUS. It is used for protein predictions and de novo protein annotations, but is heavily reliant on the data you give it. 
+BRAKER3 uses genome, RNA, and protein data to predict proteins. It is highly sensitive to the data you give it. 
 
-BRAKER is one of the hardest programs to install on the HPC as it has so many dependancies. It is probably easier to install on a local machine. It is also conda-able, however I've never been able to get the conda braker env to work.
+This is using BRAKER singularity container published 2/28/2024. 
+
+Install the singularity container:
+
+```
+module load singularity-3.8.7
+singularity build braker3.sif docker://teambraker/braker3:latest
+singularity exec braker3.sif braker.pl
+```
+
+If installed you should get the braker help menu. You can also test your installation with their test data:
+
+```
+singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test1.sh .
+singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test2.sh .
+singularity exec -B $PWD:$PWD braker3.sif cp /opt/BRAKER/example/singularity-tests/test3.sh .
+export BRAKER_SIF=/your/path/to/braker3.sif # may need to modify
+bash test1.sh
+bash test2.sh
+bash test3.sh
+```
 
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH --output=out_braker3.log
 #SBATCH --mail-user=your@email.com
 #SBATCH --mail-type=ALL
 
-export AUGUSTUS_CONFIG_PATH=/path/to/Augustus/config
-export GENEMARK_PATH=/path/to/GeneMark-ETP/bin
-export PROTHINT_PATH=/path/to/GeneMark-ETP/bin/gmes/ProtHint/bin
-export TSEBRA_PATH=/path/to/TSEBRA/bin
-export STRINGTIE_PATH=/path/to/stringtie
+module load singularity-3.8.7
+export BRAKER_SIF=/home/data/jfierst/veggers/braker3.sif
 
-/path/to/braker.pl \
- --workingdir ./[sample]_braker3 \
- --species [species_name] \
- --genome /path/to/keptcontigs.masked \
- --prot_seq /path/to/protein.fa \
- --bam /path/to/Aligned.out.bam \
+singularity exec braker3.sif braker.pl \
+ --workingdir=species_braker3 \
+ --species=species_name \
+ --useexisting \
+ --genome=./masked.fasta \
+ --prot_seq=./Metazoa.fa \
+ --bam=./species_STAR/Aligned.out.bam \   #if you used hisat2: ./species_hisat2/species.bam
  --softmasking
+
 ```
 
 
@@ -1025,10 +1013,7 @@ module load perl-5.34.0-gcc-8.2.0-b5u622f
 
 <details>
 
- <summary>
-	 
-## Repeat Annotation
-</summary>
+<summary>Repeat Annotation</summary>
 
 **EDTA**
 
