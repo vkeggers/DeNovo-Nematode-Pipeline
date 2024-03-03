@@ -780,12 +780,14 @@ To decontaminate our genomes we use SIDR, a machine learning program genereated 
 The output of SIDR is two fasta files: keptcontigs.fa and contaminantcontigs.fa
 
 </details>
+<br>
+
 
 <details>
 
-<summary>Quality Check</summary>
+<summary><b>Quality Check</b></summary>
 
-Using the kept contigs.fa, it is good to repeat the QUAST and BUSCO measures for the assembly to make sure there haven't been crazy changes, or if so, then why.
+It is good to repeat the QUAST and BUSCO measures for the decontaminated assembly to make sure there haven't been crazy changes, or if so, then why.
 
 Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.fa, it is changed to /your/path/to/keptcontigs.fa
 
