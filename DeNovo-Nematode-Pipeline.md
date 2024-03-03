@@ -1,5 +1,6 @@
 # DeNovo-Nematode-Pipeline
 This pipeline is in reference to and building off of [CRE@UA](https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md)
+
 Everything was done using the FIU HPC. Press on arrows to expand contents.
 
 
@@ -46,7 +47,7 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 
 </details>
-
+<br>
 
 
 <details>
@@ -80,7 +81,7 @@ You will then need to navigate to your home directory on your computer and open 
 
 
 </details>
-
+<br>
 
 
 <details>
@@ -431,7 +432,7 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 
 </details>
-
+<br>
 
 
 <details>
@@ -590,6 +591,8 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 </details>
 
 </details>
+<br>
+
 
 <details>
 
@@ -759,6 +762,8 @@ exit
 
 
 </details>
+<br>
+
 
 <details>
 
@@ -785,6 +790,7 @@ Using the kept contigs.fa, it is good to repeat the QUAST and BUSCO measures for
 Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.fa, it is changed to /your/path/to/keptcontigs.fa
 
 </details>
+<br>
 
 
 <details>
@@ -857,6 +863,8 @@ Also, remember that the output of RepeatModeler (custom library) is in RM*/conse
 Or, if you want a broader library, [species].repeats
 
 </details>
+<br>
+
 
 
 <details>
@@ -1064,7 +1072,7 @@ module load perl-5.34.0-gcc-8.2.0-b5u622f
 
  
 </details>
-
+<br>
 
 
 
