@@ -1,11 +1,11 @@
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH -n 8
 #SBATCH --output=out_sidr.log
-#SBATCH --mail-user=vegge003@fiu.edu
+#SBATCH --mail-user=user@email.com
 #SBATCH --mail-type=ALL
 
 
