@@ -4,7 +4,9 @@ Everything can be done as listed using the FIU HPC. Press on arrows to expand co
 
 
 <details>
-<summary>Upload raw data to NCBI SRA</summary>
+<summary>
+	
+**Upload raw data to NCBI SRA**</summary>
 
 It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so that it is stored off your system and you can come back and download it if needed. You may also place an embargo on it so that the data will not be public until your paper is published. This is also a good idea because it may take a month to process and you don't want to be worried about this while also trying to publish (most journals require the raw data to be available during the time of review).
 
@@ -13,7 +15,9 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 
 
 <details>
-<summary>Data may be obtained through NCBI SRA</summary>
+<summary>
+	
+**Data may be obtained through NCBI SRA**</summary>
 
 **If you have your own data, skip this part!**
 
@@ -50,7 +54,9 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 
 <details>
-<summary> Check the Raw Data</summary>
+<summary>
+	
+**Check the Raw Data**</summary>
 
 [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a program to assess the quality of raw reads and give some basic stats. 
 
@@ -84,7 +90,9 @@ You will then need to navigate to your home directory on your computer and open 
 
 
 <details>
-<summary>Assembly</summary>
+<summary>
+	
+**Assembly**</summary>
 
 It is a good idea to try multiple assembly methods and compare to choose the 'best' one. Best typically means most complete and contiguous. You could try with different softwares, different input data, and different amounts of input data. You can then use that 'best' one for annotation. 
 
@@ -435,7 +443,9 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 
 <details>
-<summary>Assembly Polishing</summary>
+<summary>
+	
+**Assembly Polishing**</summary>
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. This applies less with HiFi data since it reached a Q20 (99%) quality score. I'm not sure where the community stands on correcting HiFi reads with Illumina. 
 
@@ -589,11 +599,17 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 
 </details>
 
+
+
 </details>
+
+
 
 <details>
 
-<summary>Quality Check</summary>
+<summary>
+	
+**Quality Check**</summary>
 
 Assembly quality has various measures. Things like N50, contig number, assembly size, k-mer counting, and gene presence/absence can all be indications of how good an assembly may be. It is a good idea to try multiple assembly methods and use these metrics to compare them. The "best" assembly is usually the most complete and contiguous. QUAST is particularly nice for comparing multiple assemblies at once.
 
@@ -762,7 +778,9 @@ exit
 
 <details>
 
-<summary>Decontamination</summary>
+<summary>
+	
+**Decontamination**</summary>
 
  **SIDR**
  
@@ -776,9 +794,13 @@ The output of SIDR is two fasta files: keptcontigs.fa and contaminantcontigs.fa
 
 </details>
 
+
+
 <details>
 
-<summary>Quality Check</summary>
+<summary>
+	
+**Quality Check**</summary>
 
 Using the kept contigs.fa, it is good to repeat the QUAST and BUSCO measures for the assembly to make sure there haven't been crazy changes, or if so, then why.
 
@@ -787,9 +809,12 @@ Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.
 </details>
 
 
+
 <details>
 
-<summary>Masking Repeats</summary>
+<summary>
+	
+**Masking Repeats**</summary>
 
 **RepeatMasker/Modeler**
 
@@ -859,9 +884,12 @@ Or, if you want a broader library, [species].repeats
 </details>
 
 
+
 <details>
 
-<summary>Gene Annotation</summary>
+<summary>
+	
+**Gene Annotation**</summary>
 
 <details>
 <summary>RNA Alignment</summary>
@@ -1070,7 +1098,9 @@ module load perl-5.34.0-gcc-8.2.0-b5u622f
 
 <details>
 
-<summary>Repeat Annotation</summary>
+<summary>
+	
+**Repeat Annotation**</summary>
 
 **EDTA**
 
