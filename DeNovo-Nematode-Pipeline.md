@@ -1,8 +1,9 @@
 # DeNovo-Nematode-Pipeline
 This pipeline is in reference to and building off of [CRE@UA](https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md)
-
 Everything was done using the FIU HPC. Press on arrows to expand contents.
-
+<br>
+<br>
+<br>
 
 <details>
 <summary><b>Upload raw data to NCBI SRA</b></summary>
