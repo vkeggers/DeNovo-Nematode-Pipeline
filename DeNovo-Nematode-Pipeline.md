@@ -1,6 +1,6 @@
 # DeNovo-Nematode-Pipeline
 This pipeline is in reference to and building off of [CRE@UA](https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md)
-Everything can be done as listed using the FIU HPC. Press on arrows to expand contents.
+Everything was done using the FIU HPC. Press on arrows to expand contents.
 
 
 <details>
@@ -105,7 +105,7 @@ Flye is an all-rounder, meaning it can assemble with pretty much anything you gi
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 <details>
-<summary>nextDenovo</summary>
+<summary><i>nextDenovo</i></summary>
 
 Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous.
 ```
@@ -195,7 +195,7 @@ Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
 </details>
 
 <details>
-<summary>Flye</summary>
+<summary><i>Flye</i></summary>
 
 The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, so let's just conda install them:
 
@@ -308,7 +308,7 @@ awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; 
 ```
 
 <details>
-<summary>Verkko</summary>
+<summary><i>Verkko</i></summary>
 
 **Verkko does not do well with little coverage.**
 
@@ -369,7 +369,7 @@ This takes about 2 hours to complete on a worm genome (~100Mb)
 
 
 <details>
-<summary>Hifiasm</summary>
+<summary><i>Hifiasm</i></summary>
 
 Install Hifiasm with conda:
 ```
@@ -435,7 +435,7 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 
 <details>
-<summary>Assembly Polishing</summary>
+<summary><b>Assembly Polishing</b></summary>
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. This applies less with HiFi data since it reached a Q20 (99%) quality score. I'm not sure where the community stands on correcting HiFi reads with Illumina. 
 
@@ -444,7 +444,7 @@ Illumina has a higher base calling accuracy than nanopore (although nanopore may
 If you assembled with NextDenovo, proceed with NextPolish. If you assembled with Flye, proceed with Pilon.
 
 <details>
-<summary>NextPolish</summary>
+<summary><i>NextPolish</i></summary>
 
 https://github.com/Nextomics/NextPolish
 ```
@@ -495,7 +495,7 @@ Run the script. The output will be a file with pid***** and a directory named 01
 </details>
 
 <details>
-<summary>Pilon</summary>
+<summary><i>Pilon</i></summary>
 
 https://github.com/broadinstitute/pilon
 
@@ -593,12 +593,12 @@ java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --fr
 
 <details>
 
-<summary>Quality Check</summary>
+<summary><b>Quality Check</b></summary>
 
 Assembly quality has various measures. Things like N50, contig number, assembly size, k-mer counting, and gene presence/absence can all be indications of how good an assembly may be. It is a good idea to try multiple assembly methods and use these metrics to compare them. The "best" assembly is usually the most complete and contiguous. QUAST is particularly nice for comparing multiple assemblies at once.
 
 <details>
-<summary>BUSCO</summary>
+<summary><i>BUSCO</i></summary>
 
 [BUSCO](https://busco.ezlab.org/) searches for "near-universal" single-copy orthologs from the taxon given. If we are assembling a nematode genome, we use the database nematoda:
 
@@ -640,7 +640,7 @@ Edit the script to include your path to Augustus and run the script. BUSCO may t
 
 
 <details>
-<summary>QUAST</summary>
+<summary><i>QUAST</i></summary>
 
 [QUAST](https://github.com/ablab/quast) calculates assembly metrics like N50, contig #, and assembly size. If given a reference, it can do more, like tell you about misassemblies, however, if the assembly is _de novo_ then you do not have a reference.
 
@@ -703,7 +703,7 @@ The .html file should now be in your home directory of your local machine.
 
 
 <details>
-<summary>Merqury</summary>
+<summary><i>Merqury</i></summary>
 	
 [Merqury](https://github.com/marbl/merqury) is a k-mer counting tool with a variety of options. It allows you to see which k-mers appear only in the reads, which occur in the assembly and how many times they occur, potential ploidy of the organsim, haplotype phasing, etc.
 
@@ -762,7 +762,7 @@ exit
 
 <details>
 
-<summary>Decontamination</summary>
+<summary><b>Decontamination</b></summary>
 
  **SIDR**
  
@@ -789,7 +789,7 @@ Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.
 
 <details>
 
-<summary>Masking Repeats</summary>
+<summary><b>Masking Repeats</b></summary>
 
 **RepeatMasker/Modeler**
 
@@ -861,10 +861,10 @@ Or, if you want a broader library, [species].repeats
 
 <details>
 
-<summary>Gene Annotation</summary>
+<summary><b>Gene Annotation</b></summary>
 
 <details>
-<summary>RNA Alignment</summary>
+<summary><i>RNA Alignment</i></summary>
 
 You can do RNA alignment with STAR or hisat2. For nematodes, it seems that STAR performs better and leads to more proteins predicted.
 
@@ -946,7 +946,7 @@ Takes about 1 hour on a 100Mb genome.
 
 
 <details>
-<summary>Protein Prediction</summary>
+<summary><i>Protein Prediction</i></summary>
 
 **BRAKER3**
 
@@ -1032,7 +1032,7 @@ agat_sp_statistics.pl --gff /path/to/[sample]_braker3.gff3 \
 
 
 <details>
-<summary>Functional Annotation</summary>
+<summary><i>Functional Annotation</i></summary>
 **InterProScan**
 
 https://interproscan-docs.readthedocs.io/en/latest/
@@ -1070,7 +1070,7 @@ module load perl-5.34.0-gcc-8.2.0-b5u622f
 
 <details>
 
-<summary>Repeat Annotation</summary>
+<summary><b>Repeat Annotation</b></summary>
 
 **EDTA**
 
