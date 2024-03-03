@@ -4,7 +4,7 @@ Everything can be done as listed using the FIU HPC. Press on arrows to expand co
 
 
 <details>
-<summary><i>Upload raw data to NCBI SRA</i></summary>
+<summary><b>Upload raw data to NCBI SRA</b></summary>
 
 It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so that it is stored off your system and you can come back and download it if needed. You may also place an embargo on it so that the data will not be public until your paper is published. This is also a good idea because it may take a month to process and you don't want to be worried about this while also trying to publish (most journals require the raw data to be available during the time of review).
 
@@ -13,7 +13,7 @@ It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so
 
 
 <details>
-<summary>Data may be obtained through NCBI SRA</summary>
+<summary><b>Data may be obtained through NCBI SRA</b></summary>
 
 **If you have your own data, skip this part!**
 
@@ -50,7 +50,7 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 
 <details>
-<summary> Check the Raw Data</summary>
+<summary><b>Check the Raw Data</b></summary>
 
 [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a program to assess the quality of raw reads and give some basic stats. 
 
@@ -84,7 +84,7 @@ You will then need to navigate to your home directory on your computer and open 
 
 
 <details>
-<summary>Assembly</summary>
+<summary><b>Assembly</b></summary>
 
 It is a good idea to try multiple assembly methods and compare to choose the 'best' one. Best typically means most complete and contiguous. You could try with different softwares, different input data, and different amounts of input data. You can then use that 'best' one for annotation. 
 
