@@ -3,23 +3,19 @@ This pipeline is in reference to and building off of [CRE@UA](https://github.com
 Everything can be done as listed using the FIU HPC. Press on arrows to expand contents.
 
 
-<details>
-<summary>
-	
+
 ## Upload raw data to NCBI SRA
-</summary>
+
+<details>
+<summary>why and how to</summary>
 
 It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so that it is stored off your system and you can come back and download it if needed. You may also place an embargo on it so that the data will not be public until your paper is published. This is also a good idea because it may take a month to process and you don't want to be worried about this while also trying to publish (most journals require the raw data to be available during the time of review).
-
 </details>
 
 
 
-<details>
-<summary>
-	
 ## Data may be obtained through NCBI SRA
-</summary>
+
 
 **If you have your own data, skip this part!**
 
@@ -55,11 +51,12 @@ If successful you should have a file named SRR16242711_1.fastq and SRR16242711_2
 
 
 
-<details>
-<summary>
-	
+
 ## Check the Raw Data
-</summary>
+
+<details>
+<summary>fastqc</summary>
+
 
 [fastqc](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/) is a program to assess the quality of raw reads and give some basic stats. 
 
@@ -88,15 +85,9 @@ You will then need to navigate to your home directory on your computer and open 
 
 
 
-</details>
 
-
-
-<details>
-<summary>
-	
 ## Assembly
-</summary>
+
 
 It is a good idea to try multiple assembly methods and compare to choose the 'best' one. Best typically means most complete and contiguous. You could try with different softwares, different input data, and different amounts of input data. You can then use that 'best' one for annotation. 
 
@@ -104,109 +95,7 @@ We have tried assembly with:
 
 * [flye](https://github.com/fenderglass/Flye) with [canu correct](https://canu.readthedocs.io/en/latest/quick-start.html#quickstart)
 
-* [nextdenovo](https://github.com/Nextomics/NextDenovo)
-
-* [verkko](https://github.com/marbl/verkko)
-
-* [hifiasm](https://hifiasm.readthedocs.io/en/latest/faq.html)
-
-
-Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
-
-
---------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-<details>
-<summary>nextDenovo</summary>
-
-Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous.
-```
-#create the input file
-ls SRR16242712.fastq > input.fofn
-```
-
-```
-#create the configuration file for assembly
-vi run.cfg
-```
-
-Press[i] for insert and copy and paste the below section (this was obtained by going to nextDenovo documentation and copying the run.cfg file. Then we correct a few lines for our data, like genome size for example. If you don't know the genome size you can estimate it from a related species or use the option auto.
-
-```
-[General]
-job_type = local
-job_prefix = nextDenovo
-task = all
-rewrite = yes
-deltmp = yes
-parallel_jobs = 20
-input_type = raw
-read_type = ont # clr, ont, hifi
-input_fofn = input.fofn
-workdir = PB127
-
-[correct_option]
-read_cutoff = 1k
-genome_size = 120M # estimated genome size, I know because I've already assembled this one
-sort_options = -m 20g -t 15
-minimap2_options_raw = -t 8
-pa_correction = 3
-correction_options = -p 15
-
-[assemble_option]
-minimap2_options_cns = -t 8
-nextgraph_options = -a 1
-```
-
-Save by pressing [esc], type ':wq' and press [enter]
-
-```
-#create the script to run nextDenovo and create an assembled genome
-vi assemble.sh
-```
-
-Press [i] for insert mode and copy the below script
-
-```
-#!/bin/bash
-
-#SBATCH --account account_name
-#SBATCH --qos qos_name
-#SBATCH --partition partition_name
-#SBATCH --output=out_%assemble.log
-#SBATCH --mail-user=username@email.com 	#use your own email instead
-#SBATCH --mail-type=ALL
-
-module load nextDenovo-2.5.0
-
-nextDenovo run.cfg
-```
-
-Save by pressing [esc], type ':wq' and press [enter]
-
-
-Run the script with: 
-```
-sbatch assemble.sh
-```
-
-To see if your job is running type the following command:
-```
-squeue --me
-```
-
-There is a common issue some face and you may need to load modules before you run the script. In which case use:
-```
-module load nextDenovo-2.5.0
-sbatch assemble.sh
-```
-
-The final assembly result is at 03.ctg_graph/nd.asm.fasta
-
-Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
-</details>
-
-<details>
+  <details>
 <summary>Flye</summary>
 
 The Canu module is available on HPC but I run into a problem with java when trying to use the module. Additionally, Flye is not available, so let's just conda install them:
@@ -313,13 +202,102 @@ This took approximately 4hrs to assemble a worm genome ~100Mb
 </details>
 
 
+* [nextdenovo](https://github.com/Nextomics/NextDenovo)
 
-Before starting Verkko or hifiasm, you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
+  <details>
+<summary>nextDenovo</summary>
+
+Between flye and nextdenovo, we find nextDenovo to generally be better and more contiguous.
 ```
-awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; if (length(seq) >= MIN_SIZE) print "@"$0, seq, sep, qual}' MIN_SIZE=50000 ontReads.fastq > filteredONT.fastq
+#create the input file
+ls SRR16242712.fastq > input.fofn
 ```
 
-<details>
+```
+#create the configuration file for assembly
+vi run.cfg
+```
+
+Press[i] for insert and copy and paste the below section (this was obtained by going to nextDenovo documentation and copying the run.cfg file. Then we correct a few lines for our data, like genome size for example. If you don't know the genome size you can estimate it from a related species or use the option auto.
+
+```
+[General]
+job_type = local
+job_prefix = nextDenovo
+task = all
+rewrite = yes
+deltmp = yes
+parallel_jobs = 20
+input_type = raw
+read_type = ont # clr, ont, hifi
+input_fofn = input.fofn
+workdir = PB127
+
+[correct_option]
+read_cutoff = 1k
+genome_size = 120M # estimated genome size, I know because I've already assembled this one
+sort_options = -m 20g -t 15
+minimap2_options_raw = -t 8
+pa_correction = 3
+correction_options = -p 15
+
+[assemble_option]
+minimap2_options_cns = -t 8
+nextgraph_options = -a 1
+```
+
+Save by pressing [esc], type ':wq' and press [enter]
+
+```
+#create the script to run nextDenovo and create an assembled genome
+vi assemble.sh
+```
+
+Press [i] for insert mode and copy the below script
+
+```
+#!/bin/bash
+
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
+#SBATCH --output=out_%assemble.log
+#SBATCH --mail-user=username@email.com 	#use your own email instead
+#SBATCH --mail-type=ALL
+
+module load nextDenovo-2.5.0
+
+nextDenovo run.cfg
+```
+
+Save by pressing [esc], type ':wq' and press [enter]
+
+
+Run the script with: 
+```
+sbatch assemble.sh
+```
+
+To see if your job is running type the following command:
+```
+squeue --me
+```
+
+There is a common issue some face and you may need to load modules before you run the script. In which case use:
+```
+module load nextDenovo-2.5.0
+sbatch assemble.sh
+```
+
+The final assembly result is at 03.ctg_graph/nd.asm.fasta
+
+Basic statistics for the assembly are at 03.ctg_graph/nd.asm.fasta.stat
+</details>
+
+
+* [verkko](https://github.com/marbl/verkko)
+
+  <details>
 <summary>Verkko</summary>
 
 **Verkko does not do well with little coverage.**
@@ -379,8 +357,9 @@ This takes about 2 hours to complete on a worm genome (~100Mb)
 </details>
 
 
+* [hifiasm](https://hifiasm.readthedocs.io/en/latest/faq.html)
 
-<details>
+  <details>
 <summary>Hifiasm</summary>
 
 Install Hifiasm with conda:
@@ -442,19 +421,23 @@ awk '/^S/{print ">"$2;print $3}' test.p_ctg.gfa > test.p_ctg.fa
 
 
 
+<details>
+<summary>filtering for ultra-long reads</summary>
+	
+Before starting Verkko or hifiasm, you may want to select for ultra-long ONT reads (50kb and up). You can do this with awk:
+```
+awk 'BEGIN {RS = "@"; ORS = ""} NR > 1 {getline seq; getline sep; getline qual; if (length(seq) >= MIN_SIZE) print "@"$0, seq, sep, qual}' MIN_SIZE=50000 ontReads.fastq > filteredONT.fastq
+```
 </details>
 
 
 
-<details>
-<summary>
-	
+
 ## Assembly Polishing: To polish or not to polish
-</summary>
+
 
 Illumina has a higher base calling accuracy than nanopore (although nanopore may be catching up soon). Therefore we "polish" the assembly by correcting the long read assembly with Illumina short read data. This applies less with HiFi data since it reached a Q20 (99%) quality score. I'm not sure where the community stands on correcting HiFi reads with Illumina. 
 
----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 If you assembled with NextDenovo, proceed with NextPolish. If you assembled with Flye, proceed with Pilon.
 
@@ -601,10 +584,6 @@ samtools index ./pilon_out/bwa.sort
 ##Pilon it 
 java -Xmx12G -jar /share/apps/bioinfoJava/pilon-1.22.jar --genome ${GENOME} --frags ./pilon_out/bwa.sort --output ./:pilon_out/${LINE_NAME}_pilon4
 ```
-
-</details>
-
-
 
 </details>
 
