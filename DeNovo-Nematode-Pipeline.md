@@ -9,7 +9,7 @@ Everything was done using the FIU HPC. Press on arrows to expand contents.
 It is a good idea to upload your raw reads to the Sequence Read Archive (SRA) so that it is stored off your system and you can come back and download it if needed. You may also place an embargo on it so that the data will not be public until your paper is published. This is also a good idea because it may take a month to process and you don't want to be worried about this while also trying to publish (most journals require the raw data to be available during the time of review).
 
 </details>
-
+<br>
 
 
 <details>
