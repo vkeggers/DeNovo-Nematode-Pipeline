@@ -1,9 +1,6 @@
 # DeNovo-Nematode-Pipeline
 This pipeline is in reference to and building off of [CRE@UA](https://github.com/BamaComputationalBiology/CRE-UA/blob/main/CRE-Pipeline.md)
-
-Everything can be done as listed using the FIU HPC. 
-
-Press on arrows to expand contents.
+Everything can be done as listed using the FIU HPC. Press on arrows to expand contents.
 
 
 <details>
@@ -866,18 +863,22 @@ Or, if you want a broader library, [species].repeats
 
 <summary>Gene Annotation</summary>
 
-**STAR**
+<details>
+<summary>RNA Alignment</summary>
+
+You can do RNA alignment with STAR or hisat2. For nematodes, it seems that STAR performs better and leads to more proteins predicted.
+
+<details>
+<summary>STAR</summary>
 
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3530905/
-
-Used to align the rna reads to the genome for better prediction of protein coding regions.
 
 ```
 #!/bin/bash
 
-#SBATCH --account iacc_jfierst
-#SBATCH --qos highmem1
-#SBATCH --partition highmem1
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
 #SBATCH --output=out_star
 #SBATCH --mail-user=your@email.com
 #SBATCH --mail-type=ALL
@@ -896,6 +897,56 @@ STAR \
 ```
 
 The output is an Aligned.out.bam file which will be used in BRAKER, a.k.a the next step.
+
+Takes about 1 and a half hours on a 100Mb genome.
+
+</details>
+
+
+
+<details>
+<summary>hisat2</summary>
+
+https://daehwankimlab.github.io/hisat2/manual/
+
+```
+#!/bin/bash
+
+#SBATCH --account account_name
+#SBATCH --qos qos_name
+#SBATCH --partition partition_name
+#SBATCH -n 12
+#SBATCH -N 1
+#SBATCH --output=out_%hisat2.log
+#SBATCH --mail-user=your@email.com
+#SBATCH --mail-type=ALL
+
+module load hisat2-2.1.0-gcc-8.2.0-367kzdd
+module load bamtools-2.5.2-gcc-11.2.0
+module load samtools-1.9-gcc-8.2.0-o53igvd
+
+hisat2-build ./../masked.fasta species
+
+hisat2 -x species -U ./../reads_1.fastq,./../reads_2.fastq -S species.sam
+
+samtools view -bS species.sam > species.bam
+
+```
+
+The output is an Aligned.out.bam file which will be used in BRAKER, a.k.a the next step.
+
+Takes about 1 hour on a 100Mb genome.
+
+</details>
+
+
+
+</details>
+
+
+
+<details>
+<summary>Protein Prediction</summary>
 
 **BRAKER3**
 
@@ -976,7 +1027,12 @@ agat_sp_statistics.pl --gff /path/to/[sample]_braker3.gff3 \
 
 ```
 
+</details>
 
+
+
+<details>
+<summary>Functional Annotation</summary>
 **InterProScan**
 
 https://interproscan-docs.readthedocs.io/en/latest/
@@ -1002,11 +1058,12 @@ module load perl-5.34.0-gcc-8.2.0-b5u622f
 /home/applications/interproscan/interproscan-5.33-72.0/interproscan.sh -i /path/to/protein.fa -f tsv -dp -goterms -pa
 ```
 
-
- 
 </details>
 
 
+
+ 
+</details>
 
 
 
