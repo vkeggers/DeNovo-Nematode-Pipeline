@@ -8,7 +8,12 @@
 #SBATCH --mail-user=vegge003@fiu.edu
 #SBATCH --mail-type=ALL
 
+
+############################
+############################
 ########LOAD_MODULES########
+############################
+############################
 
 module load miniconda3-23.5.2
 module load samtools-1.15.1-gcc-8.2.0
@@ -16,30 +21,7 @@ module load blast-plus-2.7.1-gcc-8.2.0-fm5yf3k
 module load minimap2-2.24
 module load bwa-0.7.17-gcc-8.2.0-qgdird7
 module load bedtools2-2.27.1-gcc-8.2.0-bxmhnwb
-module load r-4.3.1-gcc-12.1.0
 
-########ACTIVATE_CONDA_ENV########
-
-ENV_NAME="bbmap"
-PACKAGE_NAME="bbmap"
-
-# Check if the environment exists and the package is installed
-if conda env list | grep -q "^$ENV_NAME\s"; then
-    echo "Environment '$ENV_NAME' exists."
-    if conda list -n "$ENV_NAME" | grep -q "^$PACKAGE_NAME\s"; then
-        echo "Package '$PACKAGE_NAME' is installed in '$ENV_NAME'."
-    else
-        echo "Package '$PACKAGE_NAME' is not installed in '$ENV_NAME'. Installing now..."
-        conda install -n "$ENV_NAME" -c bioconda "$PACKAGE_NAME" --yes
-    fi
-else
-    echo "Environment '$ENV_NAME' does not exist. Creating and installing package..."
-    conda create -n "$ENV_NAME" -c bioconda "$PACKAGE_NAME" --yes
-fi
-
-# Activate the environment
-echo "Activating environment '$ENV_NAME'."
-source activate "$ENV_NAME"
 
 #############################
 #############################
@@ -311,16 +293,9 @@ echo -e "contig\tRNA_Covered_bases\tRNA_avg_fold" > header.txt
 cat RNAcoverageStats.txt >> header.txt
 mv header.txt RNAcoverageStats.txt
 
-bbtools to calculate GC content of contigs, or Ref_GC
-stats.sh in=${GENOME} gc=Ref_GC.txt gcformat=4
-sed -i '1d' Ref_GC.txt
-sort -k1 Ref_GC.txt > Ref_GC.txt.temp
-mv Ref_GC.txt.temp Ref_GC.txt
-echo -e "contig\tlength\tRef_GC" > header.txt
-cat Ref_GC.txt >> header.txt
-mv header.txt Ref_GC.txt 
+bash contig_GC.sh
 
-paste Ref_GC.txt RNAcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > RNA_Covered_percent.txt
+paste contig_GC.txt RNAcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > RNA_Covered_percent.txt
 echo -e "contig\tRNA_Coverage_percent" > header.txt
 cat RNA_Covered_percent.txt >> header.txt
 mv header.txt RNA_Covered_percent.txt 
