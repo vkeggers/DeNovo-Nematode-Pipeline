@@ -1011,6 +1011,8 @@ singularity exec braker3.sif braker.pl \
 
 ```
 
+This takes approximately 30 hours on a nematode genome of ~100Mb
+
 
 **AGAT**
 
