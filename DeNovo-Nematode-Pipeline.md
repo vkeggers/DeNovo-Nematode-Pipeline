@@ -99,7 +99,7 @@ We have tried assembly with:
 * [hifiasm](https://hifiasm.readthedocs.io/en/latest/faq.html)
 
 
-Flye and nextdenovo use ONT and illumina data. Verkko and hifiasm use pacbio and ONT. 
+Flye is an all-rounder, meaning it can assemble with pretty much anything you give it. nextdenovo uses ONT reads primarily. hifiasm uses pacbio hifi reads primarily. Verkko uses pacbio and ONT. 
 
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
