@@ -7,6 +7,9 @@
 #set genome variable
 GENOME=/path/to/genome
 
+mkdir stats
+cd stats
+
 #titles for columns in the output file
 echo -e "contig\tlength\tgc_percent" > contig_GC.txt
 
@@ -30,3 +33,5 @@ while read -r contig;
         #print and append the values for the current contig to the output file
         echo -e "$contig\t$total_bases\t$gc_percent" >> contig_GC.txt
    done < contig_names.txt
+
+cd ..
