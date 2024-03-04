@@ -7,7 +7,7 @@
 #set genome variable
 GENOME=/path/to/genome
 
-mkdir stats
+
 cd stats
 
 #titles for columns in the output file
