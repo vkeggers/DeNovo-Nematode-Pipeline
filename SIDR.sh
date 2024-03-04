@@ -15,7 +15,6 @@
 ############################
 ############################
 
-module load miniconda3-23.5.2
 module load samtools-1.15.1-gcc-8.2.0
 module load blast-plus-2.7.1-gcc-8.2.0-fm5yf3k
 module load minimap2-2.24
