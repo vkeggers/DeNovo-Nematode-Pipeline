@@ -193,6 +193,9 @@ samtools index ./RNAaln_sorted.bam ./RNAaln_index.bai
 cd ..
 mkdir stats
 
+#calculate GC content for reads over contig region
+bash contig_GC.sh
+
 
 #plus and minus strand counts
 bash plusANDminusCounts.sh
@@ -205,36 +208,7 @@ bash coverage.sh
 #GC percent of contigs
 bash contig_GC.sh
 
-paste contig_GC.txt RNAcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > RNA_Covered_percent.txt
-echo -e "contig\tRNA_Coverage_percent" > header.txt
-cat RNA_Covered_percent.txt >> header.txt
-mv header.txt RNA_Covered_percent.txt 
 
-paste Ref_GC.txt ONTcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > ONT_Covered_percent.txt
-echo -e "contig\tONT_Coverage_percent" > header.txt
-cat ONT_Covered_percent.txt >> header.txt
-mv header.txt ONT_Covered_percent.txt
-
-#calculate GC content for reads over contig region
-
-bash contig_GC.sh
-
-
-########FIX_BLAST_OUTPUT########
-
-
-awk '/Query=/{print; flag=1; next} flag && /^>/{print; flag=0} flag && /No hits found/{print; flag=0}' out_blastnt.log > test1.txt
-awk 'NR%2==1{col1=$0} NR%2==0{print col1, $0}' test1.txt > test2.txt
-awk '{print $2, $5, $6}' test2.txt > test3.txt
-sed -i 's/hits found/No hits found/g' test3.txt
-sed 's/ /\t/' test3.txt > blastIDs.txt
-rm test*
-sort -k1 blastIDs.txt > blastIDs.txt.temp
-mv blastIDs.txt.temp blastIDs.txt
-cp blastIDs.txt ./stats/.
-echo -e "contig\tOrigin" > header.txt
-cat blastIDs.txt >> header.txt
-mv header.txt blastIDs.txt
 
 ########MAKE_TABLE########
 
