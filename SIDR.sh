@@ -130,7 +130,12 @@ elif [ "$RUN_BLAST" = "Yes" ] && [ -z "$BLAST_OUTPUT" ]; then
     exit 1
 fi
 
+
+#########################
+#########################
 ########RUN_BLAST########
+#########################
+#########################
 
 if [ "$RUN_BLAST" = "No" ]; then
     sbatch sidrblash.sh --genome $GENOME --nt $NT
@@ -197,6 +202,10 @@ mkdir stats
 bash contig_GC.sh
 
 
+#GC percent of contigs
+bash contig_GC.sh
+
+
 #plus and minus strand counts
 bash plusANDminusCounts.sh
 
@@ -205,14 +214,13 @@ bash plusANDminusCounts.sh
 bash coverage.sh
 
 
-#GC percent of contigs
-bash contig_GC.sh
-
-
-
+##########################
+##########################
 ########MAKE_TABLE########
+##########################
+##########################
 
-cd ./stats/
+cd stats
 rm *coverage.txt
 
 
@@ -229,8 +237,21 @@ done < list
 rm list
 mv newfile SIDRstats.tsv
 
+
+########################
+########################
 ########RUN_SIDR########
+########################
+########################
+
 python xgboost.py
+
+
+################################
+################################
+#######MAKE_OUTPUT_FILES########
+################################
+################################
 
 #make a new directory
 mkdir test
