@@ -1,9 +1,14 @@
 #!/bin/bash
 
+
+
+#calculate average GC content of the reads spanning the contig
+
+
+#load modules
 module load bedtools2-2.27.1-gcc-8.2.0-bxmhnwb
 module load samtools-1.15.1-gcc-8.2.0
 
-#calculate average GC content of the reads spanning the contig
 
 cd stats
 
@@ -53,6 +58,7 @@ while read -r contig;
         rm "${contig}"reads.bam
         rm "${contig}"reads.fastq
     done < ./../contig_names.txt
+cp PBread_GC.txt ./../.
 cd ..
 
 
@@ -80,6 +86,7 @@ while read -r contig;
         rm "${contig}"reads.bam
         rm "${contig}"reads.fastq
     done < ./../contig_names.txt
+cp ONTread_GC.txt ./../.
 cd ..
 
 
@@ -107,6 +114,7 @@ while read -r contig;
         rm "${contig}"reads.bam
         rm "${contig}"reads.fastq
     done < ./../contig_names.txt
+cp RNAread_GC.txt ./../.
 cd ..
 
 
