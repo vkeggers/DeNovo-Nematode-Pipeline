@@ -21,7 +21,7 @@ echo -e "contig\tPB_plus_counts" > PB_plus_counts.txt
 
 #-F means to exclude, 16 is a flag meaning reverse complement, so we are excluding all reads which are associated with the reverse strand of DNA
 #the awk script is looking at the 3rd field (contig name), and if the field matches, it increases the count. If the field does not match (new contig), then
-it prints the values for contig and count, then resets them. The END is to ensure the last line is processed and printed.
+#it prints the values for contig and count, then resets them. The END is to ensure the last line is processed and printed.
 samtools view -F 16 ./../samsANDbams/PBaln_sorted.bam | awk '{if ($3 != contig) {if (contig != "") print contig, count; contig = $3; count = 0} count++} END
  {if (contig != "") print contig, count}' >> PB_plus_counts.txt
 
