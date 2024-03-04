@@ -136,7 +136,11 @@ if [ "$RUN_BLAST" = "No" ]; then
     sbatch sidrblash.sh --genome $GENOME --nt $NT
 
 
+###################################
+###################################
 ########GENERATE_ALIGNMENTS########
+###################################
+###################################
 
 mkdir samsANDbams
 cd samsANDbams
@@ -157,17 +161,22 @@ minimap2 -ax map-ont \
 bwa index ${GENOME}
 bwa mem -t 4 ${GENOME} ${FORWARD} ${REVERSE} > RNAaln.sam
 
-########MAKE_BAM_FILES########
 
-#DNA
+##############################
+##############################
+########MAKE_BAM_FILES########
+##############################
+##############################
+
+#pacbio hifi
 samtools view -Sb ./PBaln.sam -o ./PBaln.bam
 samtools sort -o ./PBaln_sorted.bam ./PBaln.bam
 samtools index ./PBaln_sorted.bam ./PBaln_index.bai
 
+#oxford nanopore
 samtools view -Sb ./ONTaln.sam -o ./ONTaln.bam
 samtools sort -o ./ONTaln_sorted.bam ./ONTaln.bam
 samtools index ./ONTaln_sorted.bam ./ONTaln_index.bai
-
 
 #RNA
 samtools view -Sb ./RNAaln.sam -o ./RNAaln.bam
@@ -175,95 +184,25 @@ samtools sort -o ./RNAaln_sorted.bam ./RNAaln.bam
 samtools index ./RNAaln_sorted.bam ./RNAaln_index.bai
 
 
+##############################
+##############################
 ########GENERATE_STATS########
+##############################
+##############################
 
 cd ..
 mkdir stats
 
 
 #plus and minus strand counts
-
 bash plusANDminusCounts.sh
 
+
 #various forms of coverage
-covered_bases[$1]++ is the number of positions (bases) that have coverage greater than zero
-sum[$1] += $3 is depth at each position (takes the third column and adds it to sum)
-total_bases[$1]++ is basically the length of the contig by adding to the count even if the base does not have coverage
-
-#pacbio
-samtools depth ./../samsANDbams/PBaln_sorted.bam > PBcoverage.txt
-
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
-        coverage_percentage = (covered_bases[contig] / total_bases[contig]) * 100;
+bash coverage.sh
 
 
-        print contig, covered_bases[contig], avg_fold, coverage_percentage;
-    }
-}' PBcoverage.txt | sort -k1,1 > PBcoverageStats.txt
-sed -i 's/ /\t/g' PBcoverageStats.txt
-sort -k1 PBcoverageStats.txt > PBcoverageStats.txt.temp
-mv PBcoverageStats.txt.temp PBcoverageStats.txt 
-echo -e "contig\tPB_Covered_bases\tPB_avg_fold\tPB_coverage_percent" > header.txt
-cat PBcoverageStats.txt >> header.txt
-mv header.txt PBcoverageStats.txt
-
-#ONT
-samtools depth ./../samsANDbams/ONTaln_sorted.bam > ONTcoverage.txt
-
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
-
-        print contig, covered_bases[contig], avg_fold;
-    }
-}' ONTcoverage.txt | sort -k1,1 > ONTcoverageStats.txt
-sed -i 's/ /\t/g' ONTcoverageStats.txt
-sort -k1 ONTcoverageStats.txt > ONTcoverageStats.txt.temp
-mv ONTcoverageStats.txt.temp ONTcoverageStats.txt
-echo -e "contig\tONT_Covered_bases\tONT_avg_fold" > header.txt
-cat ONTcoverageStats.txt >> header.txt
-mv header.txt ONTcoverageStats.txt
-
-#RNA
-samtools depth ./../samsANDbams/RNAaln_sorted.bam > RNAcoverage.txt
-
-awk '{
-    if ($3 > 0) {
-        covered_bases[$1]++;
-        sum[$1] += $3;
-    }
-    total_bases[$1]++;
-}
-END {
-    for (contig in sum) {
-        avg_fold = sum[contig] / total_bases[contig];
-
-        print contig, covered_bases[contig], avg_fold;
-    }
-}' RNAcoverage.txt | sort -k1,1 > RNAcoverageStats.txt
-sed -i 's/ /\t/g' RNAcoverageStats.txt
-sort -k1 RNAcoverageStats.txt > RNAcoverageStats.txt.temp
-mv RNAcoverageStats.txt.temp RNAcoverageStats.txt
-echo -e "contig\tRNA_Covered_bases\tRNA_avg_fold" > header.txt
-cat RNAcoverageStats.txt >> header.txt
-mv header.txt RNAcoverageStats.txt
-
+#GC percent of contigs
 bash contig_GC.sh
 
 paste contig_GC.txt RNAcoverageStats.txt | awk '{print $1, ($5 / $2) * 100}' | sed -i 's/ /\t/g' | sort -k1 > RNA_Covered_percent.txt
