@@ -179,40 +179,11 @@ samtools index ./RNAaln_sorted.bam ./RNAaln_index.bai
 
 cd ..
 mkdir stats
-cd stats
+
 
 #plus and minus strand counts
-samtools view -F 16 ./../samsANDbams/PBaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > PBplus_strand_counts.txt
-sed -i 's/ /\t/' PBplus_strand_counts.txt
-sort -k1 PBplus_strand_counts.txt > PBplus_strand_counts.txt.temp
-mv PBplus_strand_counts.txt.temp PBplus_strand_counts.txt
-echo -e "contig\tPBplus_strand_counts" > header.txt
-cat PBplus_strand_counts.txt >> header.txt
-mv header.txt PBplus_strand_counts.txt
 
-samtools view -f 16 ./../samsANDbams/PBaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > PBminus_strand_counts.txt
-sed -i 's/ /\t/' PBminus_strand_counts.txt
-sort -k1 PBminus_strand_counts.txt > PBminus_strand_counts.txt.temp
-mv PBminus_strand_counts.txt.temp PBminus_strand_counts.txt
-echo -e "contig\tPBminus_strand_counts" > header.txt
-cat PBminus_strand_counts.txt >> header.txt
-mv header.txt PBminus_strand_counts.txt
-
-samtools view -F 16 ./../samsANDbams/ONTaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > ONTplus_strand_counts.txt
-sed -i 's/ /\t/' ONTplus_strand_counts.txt
-sort -k1 ONTplus_strand_counts.txt > ONTplus_strand_counts.txt.temp
-mv ONTplus_strand_counts.txt.temp ONTplus_strand_counts.txt
-echo -e "contig\tONTplus_strand_counts" > header.txt
-cat ONTplus_strand_counts.txt >> header.txt
-mv header.txt ONTplus_strand_counts.txt
-
-samtools view -f 16 ./../samsANDbams/ONTaln_sorted.bam | awk '{if ($3 != prev) {if (prev != "") print prev, count; prev = $3; count = 0} count++} END {if (prev != "") print prev, count}' > ONTminus_strand_counts.txt
-sed -i 's/ /\t/' ONTminus_strand_counts.txt
-sort -k1 ONTminus_strand_counts.txt > ONTminus_strand_counts.txt.temp
-mv ONTminus_strand_counts.txt.temp ONTminus_strand_counts.txt
-echo -e "contig\tONTminus_strand_counts" > header.txt
-cat ONTminus_strand_counts.txt >> header.txt
-mv header.txt ONTminus_strand_counts.txt
+bash plusANDminusCounts.sh
 
 #various forms of coverage
 covered_bases[$1]++ is the number of positions (bases) that have coverage greater than zero
