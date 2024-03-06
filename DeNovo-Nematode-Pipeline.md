@@ -804,23 +804,21 @@ Modify your busco and quast scripts so that instead of /your/path/to/nextpolish.
 
 https://github.com/Dfam-consortium/RepeatModeler
 
-If the assembly is good to go, we can begin preliminary repeat annotation. This first strp uses repeatModeler/Masker to mask repeat regions of the genome and make gene annotation easier. This is just a first pass, which creates a library of repeats found in the genome. 
+If the assembly is good to go, we can begin preliminary repeat annotation. This first step uses repeatModeler/Masker to mask repeat regions of the genome and make gene annotation easier. This is just a first pass, which creates a library of repeats found in the genome. 
 
-Install repeatModeler/Masker with TE-tools container: https://github.com/Dfam-consortium/TETools
-RepeatMasker is installed on the HPC, so alternatively you can try module load RepeatMasker-4.1.0
+Install repeatModeler/Masker with conda:
 
 ```
-#Get the container
-curl -sSLO https://github.com/Dfam-consortium/TETools/raw/master/dfam-tetools.sh
-chmod +x dfam-tetools.sh
-
-#Activate the container
-./dfam-tetools.sh
+module load mamba/23.1.0-4
+conda create -n repeatmodeler
+source activate repeatmodeler
+conda install -c bioconda repeatmodeler
 ```
 
 
-Run commands one by one in container. If I remember correctly, the BuildDatabase command takes the longest (~12 hours on a 100Mb genome, ~20% repeats)
 ```
+source activate repeatmodeler
+
 #Build the database
 BuildDatabase -name [species_name] [genome.fasta]
 
