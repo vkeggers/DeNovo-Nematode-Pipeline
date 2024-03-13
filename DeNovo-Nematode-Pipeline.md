@@ -607,8 +607,8 @@ Assembly quality has various measures. Things like N50, contig number, assembly 
 [BUSCO](https://busco.ezlab.org/) searches for "near-universal" single-copy orthologs from the taxon given. If we are assembling a nematode genome, we use the database nematoda:
 
 ```
-wget --no-check-certificate https://busco-data.ezlab.org/v5/data/lineages/nematoda_odb10.2020-08-05.tar.gz
-tar -xvzf nematoda_odb10.2020-08-05.tar.gz
+wget --no-check-certificate https://busco-data.ezlab.org/v5/data/lineages/nematoda_odb10.2024-01-08.tar.gz 
+tar -xvzf nematoda_odb10.2024-01-08.tar.gz 
 ```
 
 type 'vi busco.sh' to create a script, hit [i], and copy/paste the lines below:
