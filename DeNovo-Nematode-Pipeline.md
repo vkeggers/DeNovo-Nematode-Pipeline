@@ -817,6 +817,16 @@ conda install -c bioconda repeatmodeler
 
 
 ```
+#!/bin/bash
+
+#SBATCH --account account_name
+#SBATCH --qos node_name
+#SBATCH --partition node_name
+#SBATCH --output=out_%repeatmodeler.log
+#SBATCH --mail-user=username@email.com   #use your own email
+#SBATCH --mail-type=ALL
+
+module load mamba/23.1.0-4
 source activate repeatmodeler
 
 #Build the database
@@ -831,8 +841,6 @@ queryRepeatDatabase.pl -species rhabditida | grep -v "Species:" > Rhabditida.rep
 #Combine the files to create a library of de novo and known repeats
 cat RM*/consensi.fa.classified Rhabditida.repeatmasker > [species_name].repeats
 
-#exit the container
-exit
 ```
 
 Mask the repeats from the library you just generated. 
