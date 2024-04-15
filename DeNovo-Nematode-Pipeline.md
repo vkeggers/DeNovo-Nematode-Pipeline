@@ -833,7 +833,7 @@ source activate repeatmodeler
 BuildDatabase -name [species_name] [genome.fasta]
 
 #Run RepeatModeler for de novo repeat identification and characterization
-RepeatModeler -pa 8 -database [species_name]
+RepeatModeler -threads 8 -database [species_name]
 
 #Use the queryRepeatDatabase.pl script inside RepeatMasker/util to extract Rhabditida repeats
 queryRepeatDatabase.pl -species rhabditida | grep -v "Species:" > Rhabditida.repeatmasker
@@ -842,6 +842,8 @@ queryRepeatDatabase.pl -species rhabditida | grep -v "Species:" > Rhabditida.rep
 cat RM*/consensi.fa.classified Rhabditida.repeatmasker > [species_name].repeats
 
 ```
+
+-pa might give an error and you may have to change the script to -threads instead
 
 Mask the repeats from the library you just generated. 
 ```
