@@ -224,11 +224,12 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --output=out_%canu_correct.log
 #SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
+#SBATCH -n 8
 
 module load mamba/23.1.0-4
 source activate canu
 
-canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./SRR16242712.fastq
+canu -correct -p [sample]_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./[reads].fastq
 ```
 
 Save by pressing [esc], type ':wq' and press [enter]
