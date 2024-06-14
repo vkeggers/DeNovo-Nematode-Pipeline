@@ -225,6 +225,7 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
+module load mamba/23.1.0-4
 source activate canu
 
 canu -correct -p PB127_canu -d canu_out genomeSize=120M useGrid=false -nanopore-raw ./SRR16242712.fastq
@@ -280,6 +281,7 @@ Hit [i] for insertion mode and copy/paste the following:
 #SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
+module load mamba/23.1.0-4
 source activate flye    
 
 flye --nano-corr ./canu_out/PB127_canu.correctedReads2.fasta -o flye_assembly -t 8 --genome-size 120M
@@ -342,6 +344,7 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH --mail-user=username@email.com   #use your own email
 #SBATCH --mail-type=ALL
 
+module load mamba/23.1.0-4
 source activate verkko 
 
 export VERKKO=/your/path/to/verkko/bin
@@ -397,6 +400,7 @@ Press[i] for instertion and copy/paste the following:
 #SBATCH --mail-user=username@email.com  #insert your own email
 #SBATCH --mail-type=ALL
 
+module load mamba/23.1.0-4
 source activate hifiasm
 
 #pacbio reads only
