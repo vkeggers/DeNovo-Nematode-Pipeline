@@ -817,7 +817,7 @@ Install repeatModeler/Masker with conda:
 module load mamba/23.1.0-4
 conda create -n repeatmodeler
 source activate repeatmodeler
-conda install -c bioconda repeatmodeler
+mamba install -c bioconda repeatmodeler
 ```
 
 
