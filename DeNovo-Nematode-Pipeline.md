@@ -206,7 +206,7 @@ Get Canu
 module load mamba/23.1.0-4
 conda create -n canu
 source activate canu
-conda install -c bioconda canu
+mamba install -c bioconda canu
 ```
 
 Create script
@@ -263,7 +263,7 @@ Get Flye
 module load mamba/23.1.0-4
 conda create -n flye
 source activate flye
-conda install -c bioconda flye
+mamba install -c bioconda flye
 ```
 
 Create the script
@@ -382,7 +382,7 @@ Install Hifiasm with conda:
 module load mamba/23.1.0-4
 conda create -n hifiasm
 source activate hifiasm
-conda install -c bioconda hifiasm
+mamba install -c bioconda hifiasm
 ```
 
 Create the script:
@@ -721,7 +721,7 @@ Merqury is not on the HPC, but it is available through a conda environment. To d
 module load mamba/23.1.0-4
 conda create -n merqury
 source activate merqury
-conda install -c conda-forge -c bioconda merqury
+mamba install -c conda-forge -c bioconda merqury
 ```
 
 To test if the installation works:
