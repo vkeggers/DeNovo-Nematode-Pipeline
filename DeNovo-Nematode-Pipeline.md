@@ -407,6 +407,8 @@ source activate hifiasm
 #pacbio reads only
 hifiasm -o sample.asm -t 32 /path/to/hifi_reads.fastq
 
+#nanopore reads only
+hifiasm -t32 --ont -o sample.asm /path/to/ONT.reads.fastq.gz
 
 #pacbio with nanopore reads over 50kb
 hifiasm -o sample.asm -t 32 --ul /path/to/filteredONT.fastq /path/to/hifi_reads.fastq
